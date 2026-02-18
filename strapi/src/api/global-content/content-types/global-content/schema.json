@@ -1,0 +1,55 @@
+{
+    "kind": "singleType",
+    "collectionName": "global_contents",
+    "info": {
+        "singularName": "global-content",
+        "pluralName": "global-contents",
+        "displayName": "Global Content",
+        "description": "Global settings like Navigation, Footer, etc."
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "siteTitle": {
+            "type": "string",
+            "default": "UNTH.AI",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "footerText": {
+            "type": "string",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "footerTagline": {
+            "type": "string",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "navigationItems": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.link",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,139 @@
+{
+  "name": "Unthai_LeadForm_v1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "unthai-leads",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://unth.ai,http://localhost:5173,http://localhost:4173"
+        }
+      },
+      "id": "lead-webhook",
+      "name": "Webhook - Lead Form",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "unthai-lead-form"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract data from either $json or $json.body\nconst name = $input.item.json.name || $input.item.json.body?.name || '';\nconst emailRaw = $input.item.json.email || $input.item.json.body?.email;\nconst interests = $input.item.json.interests || $input.item.json.body?.interests || [];\nconst message = $input.item.json.message || $input.item.json.body?.message || '';\nconst timestamp = $input.item.json.timestamp || $input.item.json.body?.timestamp;\nconst source = $input.item.json.source || $input.item.json.body?.source || 'website';\n\nif (!emailRaw) {\n  throw new Error('Email is required');\n}\n\nif (!name) {\n  throw new Error('Name is required');\n}\n\nconst email = emailRaw.toLowerCase().trim();\n\n// Validate email format\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(email)) {\n  throw new Error('Invalid email format');\n}\n\n// Extract domain\nconst domain = email.split('@')[1];\n\n// Create lead ID\nconst now = new Date();\nconst dateStr = now.toISOString().slice(0,10).replace(/-/g, '');\nconst timeStr = now.toTimeString().slice(0,8).replace(/:/g, '');\nconst namePart = name.replace(/\\s+/g, '-').toLowerCase().slice(0, 20);\nconst leadId = `${dateStr}-${timeStr}-${namePart}`;\n\n// Format date and time\nconst date = now.toISOString().slice(0,10);\nconst time = now.toTimeString().slice(0,8);\n\n// Convert interests array to comma-separated string\nconst interestsString = Array.isArray(interests) ? interests.join(', ') : interests;\n\nreturn {\n  json: {\n    lead_id: leadId,\n    name: name,\n    email: email,\n    domain: domain,\n    interests: interestsString,\n    message: message,\n    timestamp: timestamp || now.toISOString(),\n    source: source,\n    date_submitted: date,\n    time_submitted: time,\n    status: 'New'\n  }\n};"
+      },
+      "id": "extract-lead-data",
+      "name": "Extract & Process Lead Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [224, 0]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1_zxFcmJbigrpQJiy2XKr4f45EGmSobjr7AoB1n3wlXs",
+          "mode": "list",
+          "cachedResultName": "UNTHAI_LEADS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_zxFcmJbigrpQJiy2XKr4f45EGmSobjr7AoB1n3wlXs/edit?usp=sharing"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_zxFcmJbigrpQJiy2XKr4f45EGmSobjr7AoB1n3wlXs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "google-sheets-leads",
+      "name": "Google Sheets - Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [448, 0],
+      "credentials": {
+        "googleApi": {
+          "id": "fIa25OQIHTezhxCl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Thank you! We'll be in touch soon.\", \"leadId\": $json.lead_id } }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "success-response-lead",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [672, 0]
+    }
+  ],
+  "connections": {
+    "Webhook - Lead Form": {
+      "main": [
+        [
+          {
+            "node": "Extract & Process Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract & Process Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Leads": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": true,
+  "tags": [
+    {
+      "id": "leads",
+      "name": "leads"
+    }
+  ]
+}

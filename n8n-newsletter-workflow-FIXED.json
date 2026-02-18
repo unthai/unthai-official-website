@@ -1,0 +1,167 @@
+{
+  "name": "UNTH.AI Newsletter Signup - FIXED",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "newsletter-signup",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://unth.ai,http://localhost:5173,http://localhost:4173"
+        }
+      },
+      "id": "webhook-newsletter",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "unthai-newsletter-signup"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract email from either $json.email or $json.body.email\nconst emailRaw = $input.item.json.email || $input.item.json.body?.email;\nconst timestamp = $input.item.json.timestamp || $input.item.json.body?.timestamp;\nconst source = $input.item.json.source || $input.item.json.body?.source || 'website';\n\nif (!emailRaw) {\n  throw new Error('Email is required');\n}\n\nconst email = emailRaw.toLowerCase().trim();\n\n// Validate email format\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(email)) {\n  throw new Error('Invalid email format');\n}\n\n// Extract domain\nconst domain = email.split('@')[1];\n\n// Create subscriber ID\nconst now = new Date();\nconst dateStr = now.toISOString().slice(0,10).replace(/-/g, '');\nconst timeStr = now.toTimeString().slice(0,8).replace(/:/g, '');\nconst emailPrefix = email.split('@')[0];\nconst subscriberId = `${dateStr}-${timeStr}-${emailPrefix}`;\n\n// Format date and time\nconst date = now.toISOString().slice(0,10);\nconst time = now.toTimeString().slice(0,8);\n\nreturn {\n  json: {\n    subscriber_id: subscriberId,\n    email: email,\n    domain: domain,\n    timestamp: timestamp || now.toISOString(),\n    source: source,\n    date_subscribed: date,\n    time_subscribed: time,\n    status: 'Active'\n  }\n};"
+      },
+      "id": "process-data",
+      "name": "Extract & Process Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "18kJHAHagPklku7lINUQHYxkugF84ZRjIuX3oc4R-yjs",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "google-sheets",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [690, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_CREDENTIALS_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Welcome! You're now subscribed to our newsletter.\", \"subscriberId\": $json.subscriber_id } }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "success-response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": $json.error || \"An error occurred\" } }}",
+        "responseCode": 400,
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [690, 480]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract & Process Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract & Process Data": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "error-response"
+  },
+  "versionId": "1",
+  "meta": {
+    "instanceId": "n8n-unth-ai"
+  },
+  "id": "unthai-newsletter-workflow-fixed",
+  "tags": [
+    {
+      "createdAt": "2026-01-30",
+      "updatedAt": "2026-01-30",
+      "id": "newsletter",
+      "name": "newsletter"
+    }
+  ]
+}
