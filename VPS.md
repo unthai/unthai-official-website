@@ -52,6 +52,7 @@ dashboard          - Internal dashboard application
 marketplace        - Marketplace application
 tourinthailand     - tourinthailand.travel WordPress
 unth_platform      - Main platform database
+unthai_website     - UNTH.AI Official Website (Strapi CMS)
 wordpress_unth     - unth.ai WordPress
 xclusiveworld      - xclusive-world.com WordPress
 xheart             - xheart.tv WordPress
