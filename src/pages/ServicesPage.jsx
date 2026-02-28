@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Services from '../components/Services';
+import DetailedServices from '../components/DetailedServices';
 import { useLanguage } from '../LanguageContext';
 import heroBg from '../assets/unthai-ai-automation-bg.png';
 
@@ -77,7 +77,7 @@ const ServicesPage = () => {
 
             {/* Services Section */}
             <main>
-                <Services showActions={false} />
+                <DetailedServices />
             </main>
 
             <Footer />

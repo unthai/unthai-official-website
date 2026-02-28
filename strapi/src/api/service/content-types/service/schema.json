@@ -51,6 +51,16 @@
                     "localized": true
                 }
             }
+        },
+        "tiers": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.pricing-tier",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
         }
     }
 }

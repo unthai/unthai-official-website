@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_shared_pricing_tiers",
+    "info": {
+        "displayName": "PricingTier",
+        "icon": "priceTag",
+        "description": ""
+    },
+    "options": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "price": {
+            "type": "string",
+            "required": true
+        },
+        "deliverables": {
+            "type": "text",
+            "required": true
+        },
+        "logic": {
+            "type": "text",
+            "required": true
+        }
+    }
+}
