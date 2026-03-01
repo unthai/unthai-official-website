@@ -6,32 +6,27 @@ import { fetchAPI } from './lib/strapi';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState(() => {
-        return localStorage.getItem('unthai_lang') || 'en';
-    });
+    const [language, setLanguage] = useState('en');
 
     const [translations, setTranslations] = useState(localTranslations);
 
     useEffect(() => {
-        localStorage.setItem('unthai_lang', language);
+        // Update document lang
         document.documentElement.lang = language;
 
         const loadTranslations = async () => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
             try {
                 // Fetch global translations
-                const globalData = await fetchAPI('/global-content', { locale: language });
+                console.log("Fetching Strapi translations (v5)...");
+                const globalData = await fetchAPI('/global-content', { locale: language }, { signal: controller.signal });
+                clearTimeout(timeoutId);
 
-                // Fetch other content types if needed for global context, or rely on components fetching their own data
-                // For now, we'll try to merge what we can, but a better approach might be to just fetch "global" texts here
-                // and let pages fetch their own content.
-
-                // However, to keep the t() function working as is for now, we might want to load everything.
-                // But loading everything via API is heavy.
-                // Strategy: Use local translations as base, and overwrite with Strapi data if available.
-                // For this demo, let's focus on the 'Global Content' being dynamic first.
-
-                if (globalData && globalData.data && globalData.data.attributes) {
-                    const attrs = globalData.data.attributes;
+                if (globalData && globalData.data) {
+                    console.log("Strapi global data received:", globalData.data);
+                    const attrs = globalData.data.attributes || globalData.data;
                     setTranslations(prev => ({
                         ...prev,
                         [language]: {
@@ -53,9 +48,12 @@ export const LanguageProvider = ({ children }) => {
                             }
                         }
                     }));
+                } else {
+                    console.warn("Strapi global data empty or malformed:", globalData);
                 }
             } catch (error) {
                 console.error("Failed to load Strapi translations:", error);
+                // Fallback is already set to localTranslations in state initialization
             }
         };
         loadTranslations();

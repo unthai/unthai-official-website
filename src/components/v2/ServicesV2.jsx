@@ -69,8 +69,8 @@ const ServicesV2 = () => {
                 {(servicesData.length > 0 ? servicesData : staticServices).map((service, index) => {
                     let title, icon;
 
-                    if (service.attributes) { // Strapi data
-                        const attr = service.attributes;
+                    const attr = service.attributes || service;
+                    if (service.id || service.documentId) { // Strapi data
                         title = attr.title;
 
                         const label = attr.label;

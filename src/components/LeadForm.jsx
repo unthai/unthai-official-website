@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
@@ -22,8 +22,9 @@ const LeadForm = () => {
                 const data = await fetchAPI('/lead-form', {
                     locale: language
                 });
-                if (data && data.data && data.data.attributes) {
-                    setLeadFormData(data.data.attributes);
+                if (data && data.data) {
+                    const attr = data.data.attributes || data.data;
+                    setLeadFormData(attr);
                 }
             } catch (error) {
                 console.error("Failed to load LeadForm data:", error);

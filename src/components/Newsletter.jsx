@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
@@ -18,8 +18,9 @@ const Newsletter = () => {
                 const data = await fetchAPI('/newsletter', {
                     locale: language
                 });
-                if (data && data.data && data.data.attributes) {
-                    setNewsletterData(data.data.attributes);
+                if (data && data.data) {
+                    const attr = data.data.attributes || data.data;
+                    setNewsletterData(attr);
                 }
             } catch (error) {
                 console.error("Failed to load Newsletter data:", error);

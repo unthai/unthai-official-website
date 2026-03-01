@@ -97,6 +97,44 @@ export const translations = {
                 coffee: "Buy you a coffee"
             }
         },
+        detailedServicesFallback: [
+            {
+                title: "The Autonomous Store",
+                description: "Replace manual product staging, listing, and syncing with a 100% autonomous AI backend.",
+                tiers: [
+                    { name: "Tier 1: The Visual Catalog", price: "$900 / month", deliverables: "20 AI-staged photorealistic product scenes + SEO-optimized descriptions", logic: "Speed-first V1 assets designed for immediate listing deployment." },
+                    { name: "Tier 2: The Conversion Engine", price: "$2,000 / month", deliverables: "Tier 1 + 5 'Human-in-the-loop' Talking Avatars + Inventory syncing", logic: "Automates the trust-building phase through video and ensures zero-error stock management." },
+                    { name: "Tier 3: The Autonomous Store", price: "$4,250 / month", deliverables: "Tier 2 + 24/7 AI Sales Concierge + Competitor pricing intelligence", logic: "A full Mission Control setup that scales your store without increasing headcount." }
+                ]
+            },
+            {
+                title: "The Viral Venue",
+                description: "Automate the hype and VIP booking process using cinema-quality AI visuals and autonomous receptionists.",
+                tiers: [
+                    { name: "Tier 1: The Weekly Hype", price: "$1,000 / month", deliverables: "4 Cinematic promo clips + 4 High-impact event posters", logic: "Professional-grade creative delivered at weekly speed." },
+                    { name: "Tier 2: The Viral Venue", price: "$2,250 / month", deliverables: "Tier 1 + 20 AI content drops + Automated guestlist and booking", logic: "Continuous social presence paired with instant conversion." },
+                    { name: "Tier 3: The Midnight Mogul", price: "$5,000 / month", deliverables: "Tier 2 + AI Voice Receptionist for 24/7 VIP reservations", logic: "Maximum leverage—the venue operates and markets itself autonomously." }
+                ]
+            },
+            {
+                title: "The Global Agent",
+                description: "High-velocity AI systems designed to stage luxury properties and qualify global buyers autonomously.",
+                tiers: [
+                    { name: "Tier 1: The Lead Magnet", price: "$1,250 / month", deliverables: "10 Photorealistic 4K staging visuals + Automated lead-gen ads", logic: "Uses presets to target high-net-worth individuals." },
+                    { name: "Tier 2: The Autonomous Agent", price: "$2,500 / month", deliverables: "Tier 1 + 24/7 AI Voice Agent for lead qualification", logic: "Replaces manual cold-calling with persistent, data-backed agents." },
+                    { name: "Tier 3: The Luxury Portfolio", price: "$6,000 / month", deliverables: "Tier 2 + Cinematic 3D walkthroughs + Mission Control", logic: "A full agentic stack that manages the entire top-of-funnel." }
+                ]
+            },
+            {
+                title: "The Global Guest",
+                description: "Multilingual AI concierge systems and cinematic content designed to increase bookings and automate the guest journey.",
+                tiers: [
+                    { name: "Tier 1: The Destination Hype", price: "$1,250 / month", deliverables: "8 Web-vlog style promos + 8 Multilingual localized posters", logic: "Focuses on Visual-First storytelling to capture international tourists." },
+                    { name: "Tier 2: The Smart Concierge", price: "$2,750 / month", deliverables: "Tier 1 + 24/7 AI Guest Receptionist handling bookings and FAQs", logic: "Uses AI for high-accuracy multilingual support to remove language barriers." },
+                    { name: "Tier 3: The Hospitality Empire", price: "$7,500 / month", deliverables: "Tier 2 + Full automated guest onboarding + Influencer Avatar", logic: "Replaces entire front-desk teams with an autonomous intelligence layer." }
+                ]
+            }
+        ],
         about: {
             hero: {
                 title: "UNTHAI: BREAKING LIMITS",
@@ -237,6 +275,44 @@ export const translations = {
                 coffee: "コーヒーを奢る"
             }
         },
+        detailedServicesFallback: [
+            {
+                title: "自律型ストア (E-commerce)",
+                description: "手動での商品ステージング、リスト作成、同期を、100%自律型のAIバックエンドに置き換えます。",
+                tiers: [
+                    { name: "Tier 1: ビジュアルカタログ", price: "¥135,000 / 月", deliverables: "20パターンの写実的な商品画像 (AI) + 最適化された説明文 (日・英・タイ語)", logic: "即座の販売開始を目的としたスピード優先のアセット。" },
+                    { name: "Tier 2: コンバージョンエンジン", price: "¥300,000 / 月", deliverables: "Tier 1 + 5体の「ヒューマンインザループ」トーキングアバター + マルチチャネルの在庫連携", logic: "動画による信頼構築の自動化とエラーなしの在庫管理を保証します。" },
+                    { name: "Tier 3: 完全自律型ストア", price: "¥637,500 / 月", deliverables: "Tier 2 + 24時間365日のAIセールスコンシェルジュ + リアルタイムの競合価格インテリジェンス", logic: "人員を増やさずに店舗をスケールする完全なコントロールタワー。" }
+                ]
+            },
+            {
+                title: "バイラル・ベニュー (Nightlife & Events)",
+                description: "映画品質のAIビジュアルと自律型レセプショニストを使用して、話題作りとVIP予約プロセスを自動化します。",
+                tiers: [
+                    { name: "Tier 1: ウィークリーハイプ", price: "¥150,000 / 月", deliverables: "4つのシネマティックプロモクリップ + 4つのインパクトのあるイベントポスター", logic: "毎週のスピードで提供されるプロ級のクリエイティブ。" },
+                    { name: "Tier 2: バイラルエコシステム", price: "¥337,500 / 月", deliverables: "Tier 1 + 20のAI生成コンテンツの投下 + ゲストリストとテーブル予約の自動化", logic: "継続的なソーシャルプレゼンスと即座のコンバージョンの組み合わせ。" },
+                    { name: "Tier 3: ミッドナイト・モーグル", price: "¥750,000 / 月", deliverables: "Tier 2 + 24時間365日VIP予約用のAI音声レセプショニスト", logic: "会場が自律的に運営され、自己マーケティングを行う最大のレバレッジ。" }
+                ]
+            },
+            {
+                title: "グローバル・エージェント (Real Estate)",
+                description: "高級物件のステージングとグローバルな購入者の適格性評価を自律的に行う高速AIシステム。",
+                tiers: [
+                    { name: "Tier 1: リードマグネット", price: "¥187,500 / 月", deliverables: "10の写実的な4Kステージングビジュアル + 自動化されたSNSリード獲得広告", logic: "富裕層をターゲットにするための高度なビジュアルプリセット。" },
+                    { name: "Tier 2: 自律型エージェント", price: "¥375,000 / 月", deliverables: "Tier 1 + リードの一次対応からスケジュール調整までを行う24時間対応のAI音声エージェント", logic: "手動のコールドコールを永続的でデータに基づいたエージェントに置き換えます。" },
+                    { name: "Tier 3: ラグジュアリーポートフォリオ", price: "¥900,000 / 月", deliverables: "Tier 2 + シネマティックな3D物件「ウォークスルー」ビデオ", logic: "国際的な仲介企業のための顧客獲得全体を管理する完全なエージェント・スタック。" }
+                ]
+            },
+            {
+                title: "グローバル・ゲスト (Tourism & Hospitality)",
+                description: "予約を増やし、ゲストの体験を自動化するために設計された多言語AIコンシェルジュシステム。",
+                tiers: [
+                    { name: "Tier 1: デスティネーションハイプ", price: "¥187,500 / 月", deliverables: "8つの映画のような旅行プロモーション動画 + 8つの多言語ローカライズポスター", logic: "国際的な観光客を獲得するための「ビジュアルファースト」のストーリーテリングに焦点。" },
+                    { name: "Tier 2: スマートコンシェルジュ", price: "¥412,500 / 月", deliverables: "Tier 1 + 予約やFAQを処理する24時間365日のAIゲスト受付 (音声/チャット)", logic: "ゲストの言語の壁を取り除くための高精度の多言語サポート (タイ語/日本語/英語)。" },
+                    { name: "Tier 3: ホスピタリティ・エンパイア", price: "¥1,125,000 / 月", deliverables: "Tier 2 + 完全な自動化されたゲストオンボーディング + インフルエンサーアバター", logic: "受付や予約チーム全体を、自律的な24時間365日のAIインテリジェンス層に置き換えます。" }
+                ]
+            }
+        ],
         about: {
             hero: {
                 title: "UNTHAI: 限界を突破する",

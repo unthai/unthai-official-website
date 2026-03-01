@@ -68,8 +68,8 @@ const Services = ({ showActions = false, showMainAction = false }) => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '32px' }}>
                 {displayServices.map((item) => {
-                    const isStrapi = !!item.attributes;
-                    const attributes = isStrapi ? item.attributes : {};
+                    const isStrapi = !!item.id; // Strapi items have IDs
+                    const attributes = isStrapi ? (item.attributes || item) : {};
 
                     // Determine key/icon
                     // If Strapi, we rely on 'label' to map to icon, or user 'key' field if we added one (we added 'label')
@@ -103,9 +103,14 @@ const Services = ({ showActions = false, showMainAction = false }) => {
                     // Local: t(...) returns array of strings
                     let features = [];
                     if (isStrapi && attributes.features) {
-                        features = attributes.features.map(f => f.text);
+                        // In Strapi v5, attributes.features is an array of objects { text: string }
+                        // Ensure we always have an array and extract the text
+                        const featuresList = Array.isArray(attributes.features) ? attributes.features : [];
+                        features = featuresList.map(f => f.text || f).filter(Boolean);
                     } else if (!isStrapi) {
-                        features = t(`services.items.${item.key}.features`);
+                        features = Array.isArray(t(`services.items.${item.key}.features`))
+                            ? t(`services.items.${item.key}.features`)
+                            : [];
                     }
 
                     return (

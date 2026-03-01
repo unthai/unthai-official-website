@@ -214,91 +214,112 @@ module.exports = {
         }
       }
 
-      // 4. Seed Services
+      // 4. Seed Tiered Services
       const servicesCount = await strapi.documents('api::service.service').count({ locale: 'en' });
-      if (servicesCount === 0) {
-        const services = [
+      // To force replacement of old services, let's look for the new services
+      const existing = await strapi.documents('api::service.service').findMany({ locale: 'en' });
+      const hasNew = existing.some(s => s.title === 'The Autonomous Store');
+
+      if (!hasNew) {
+        console.log('🔄 Cleaning old services and inserting nested tiered services...');
+        for (const s of existing) {
+          await strapi.documents('api::service.service').delete({ documentId: s.documentId });
+        }
+        const existingJa = await strapi.documents('api::service.service').findMany({ locale: 'ja-JP' });
+        for (const s of existingJa) {
+          await strapi.documents('api::service.service').delete({ documentId: s.documentId });
+        }
+
+        const newServices = [
           {
-            label: "CONTENT CREATION",
-            title: "AI Content Engine",
-            description: "Fast, cinema-quality videos and visuals for your brand.",
-            features: [{ text: "Social media ads" }, { text: "Talking avatars" }, { text: "Marketing flyers" }],
+            label: "E-commerce",
+            title: "The Autonomous Store",
+            description: "Replace manual product staging, listing, and syncing with a 100% autonomous AI backend.",
+            tiers: [
+              { name: "Tier 1: The Visual Catalog", price: "$1,800 / month", deliverables: "20 AI-staged photorealistic product scenes (Higgsfield) + SEO-optimized descriptions in Thai, Japanese, and English (Gemini/ChatGPT)", logic: "Speed-first V1 assets designed for immediate listing deployment." },
+              { name: "Tier 2: The Conversion Engine", price: "$4,000 / month", deliverables: "Tier 1 + 5 \"Human-in-the-loop\" Talking Avatars (HeyGen) + Multi-channel inventory syncing (n8n/API)", logic: "Automates the trust-building phase through video and ensures zero-error stock management." },
+              { name: "Tier 3: The Autonomous Store", price: "$8,500 / month", deliverables: "Tier 2 + 24/7 AI Sales Concierge (Voice/Chat) + Real-time competitor pricing intelligence (Grok/Perplexity)", logic: "A full \"Mission Control\" setup that scales your store without increasing headcount." }
+            ],
             ja: {
-              label: "コンテンツ制作",
-              title: "AIコンテンツエンジン",
-              description: "ブランドのための、高速で映画品質の動画とビジュアル。",
-              features: [{ text: "SNS広告" }, { text: "トーキングアバター" }, { text: "マーケティングチラシ" }]
+              label: "Eコマース",
+              title: "自律型ストア",
+              description: "手動での商品撮影、リスティング、同期を100%自律型のAIバックエンドに置き換えます。",
+              tiers: [
+                { name: "Tier 1: ビジュアルカタログ", price: "$1,800 / 月", deliverables: "AIによる写実的な商品シーン20点 (Higgsfield) + SEO最適化された説明文 (タイ語、日本語、英語) (Gemini/ChatGPT)", logic: "即座のリスティング展開を目的とした、スピード重視のV1アセット。" },
+                { name: "Tier 2: コンバージョンエンジン", price: "$4,000 / 月", deliverables: "Tier 1 + 話すアバター5名による「Human-in-the-loop」(HeyGen) + マルチチャネル在庫同期 (n8n/API)", logic: "動画を通じた信頼構築フェーズを自動化し、在庫管理のエラーをゼロにします。" },
+                { name: "Tier 3: 自律型ストア", price: "$8,500 / 月", deliverables: "Tier 2 + 24時間365日のAIセールスコンシェルジュ (音声/チャット) + 競合他社のリアルタイム価格インテリジェンス (Grok/Perplexity)", logic: "人員を増やすことなくストアを拡張する、完全な「ミッションコントロール」セットアップ。" }
+              ]
             }
           },
           {
-            label: "SMART ASSISTANTS",
-            title: "Autonomous Agents",
-            description: "AI assistants that work 24/7 to handle tasks for you.",
-            features: [{ text: "Customer support bots" }, { text: "Sales assistants" }, { text: "Internal helpers" }],
+            label: "Nightlife & Events",
+            title: "The Viral Venue",
+            description: "Automate the hype and VIP booking process using cinema-quality AI visuals and autonomous receptionists.",
+            tiers: [
+              { name: "Tier 1: The Weekly Hype", price: "$2,000 / month", deliverables: "4 Cinematic promo clips (Higgsfield \"Indie Sleaze\" style) + 4 High-impact event posters (Lovart)", logic: "Professional-grade creative delivered at weekly speed." },
+              { name: "Tier 2: The Viral Venue", price: "$4,500 / month", deliverables: "Tier 1 + 20 AI-generated content drops + Automated guestlist and table booking (ManyChat)", logic: "Continuous social presence paired with instant conversion." },
+              { name: "Tier 3: The Midnight Mogul", price: "$10,000 / month", deliverables: "Tier 2 + AI Voice Receptionist for 24/7 VIP reservations + Full real-time event coverage", logic: "Maximum leverage—the venue operates and markets itself autonomously." }
+            ],
             ja: {
-              label: "スマートアシスタント",
-              title: "自律型エージェント",
-              description: "24時間365日、あなたのタスクを処理するAIアシスタント。",
-              features: [{ text: "カスタマーサポートボット" }, { text: "セールスアシスタント" }, { text: "社内ヘルパー" }]
+              label: "ナイトライフ＆イベント",
+              title: "バイラルベニュー",
+              description: "映画品質のAIビジュアルと自律型受付を使用して、エンタメの告知からVIP予約プロセスまでを自動化します。",
+              tiers: [
+                { name: "Tier 1: ウィークリーハイプ", price: "$2,000 / 月", deliverables: "シネマティックなプロモクリップ4本 (Higgsfield) + インパクトのあるイベントポスター4枚 (Lovart)", logic: "プロ品質のクリエイティブを毎週のスピードで提供。" },
+                { name: "Tier 2: バイラルベニュー", price: "$4,500 / 月", deliverables: "Tier 1 + AI生成コンテンツ20回配信 + 自動化されたゲストリストとテーブル予約 (ManyChat)", logic: "継続的なSNSプレゼンスと即時のコンバージョンを組み合わせます。" },
+                { name: "Tier 3: ミッドナイトモーグル", price: "$10,000 / 月", deliverables: "Tier 2 + 24時間365日のVIP予約対応AI音声受付 + リアルタイムのイベントカバレッジ", logic: "最大限のレバレッジ—会場は自律的に運営・マーケティングを行います。" }
+              ]
             }
           },
           {
-            label: "AUTOMATION",
-            title: "Workflow Automation",
-            description: "Connect your apps to save time and stop doing manual work.",
-            features: [{ text: "Custom workflows" }, { text: "App connections" }, { text: "Sync CRM data" }],
+            label: "Real Estate",
+            title: "The Global Agent",
+            description: "High-velocity AI systems designed to stage luxury properties and qualify global buyers autonomously.",
+            tiers: [
+              { name: "Tier 1: The Lead Magnet", price: "$2,500 / month", deliverables: "10 Photorealistic 4K staging visuals (Higgsfield) + Automated Facebook/IG lead-gen ads", logic: "Uses Higgsfield \"Amalfi Summer\" or \"Quiet Luxury\" presets to target high-net-worth individuals." },
+              { name: "Tier 2: The Autonomous Agent", price: "$5,000 / month", deliverables: "Tier 1 + 24/7 AI Voice Agent for lead qualification, ROI analysis, and tour scheduling", logic: "Replaces manual cold-calling with persistent, data-backed agents that sync directly to your CRM via n8n." },
+              { name: "Tier 3: The Luxury Portfolio", price: "$12,000 / month", deliverables: "Tier 2 + Cinematic 3D property \"walkthrough\" videos + Multi-channel \"Mission Control\" (WhatsApp/Email/Voice)", logic: "A full agentic stack that manages the entire top-of-funnel for international brokerage firms." }
+            ],
             ja: {
-              label: "自動化",
-              title: "ワークフロー自動化",
-              description: "アプリを連携させて時間を節約し、手作業をなくします。",
-              features: [{ text: "カスタムワークフロー" }, { text: "アプリ連携" }, { text: "CRMデータ同期" }]
+              label: "不動産",
+              title: "グローバルエージェント",
+              description: "高級物件のステージングとグローバルバイヤーの適格性評価を自律的に行うために設計された、高速AIシステム。",
+              tiers: [
+                { name: "Tier 1: リードマグネット", price: "$2,500 / 月", deliverables: "AIによる4Kの写実的なステージングビジュアル10点 + 自動化されたFB/IGリードジェネレーション広告", logic: "富裕層をターゲットにしたプリセットを使用。" },
+                { name: "Tier 2: 自律型エージェント", price: "$5,000 / 月", deliverables: "Tier 1 + 評価、ROI分析、内見スケジューリング用の24時間AI音声エージェント", logic: "手動のコールドコールを、CRMに直接同期するデータ駆動型エージェントに置き換えます。" },
+                { name: "Tier 3: ラグジュアリーポートフォリオ", price: "$12,000 / 月", deliverables: "Tier 2 + シネマティックな3Dの物件「ウォークスルー」動画 + マルチチャネル「ミッションコントロール」(WhatsApp/Email/Voice)", logic: "国際的な仲介会社向けの、ファネル上部全体を管理する完全なエージェントスタック。" }
+              ]
             }
           },
           {
-            label: "BULK CREATION",
-            title: "Creative Automation",
-            description: "Generate hundreds of branded designs in seconds.",
-            features: [{ text: "Brand kits" }, { text: "Social media posts" }, { text: "Layout templates" }],
+            label: "Tourism & Hospitality",
+            title: "The Global Guest",
+            description: "Multilingual AI concierge systems and cinematic content designed to increase bookings and automate the guest journey.",
+            tiers: [
+              { name: "Tier 1: The Destination Hype", price: "$2,500 / month", deliverables: "8 Cinematic \"travel-vlog\" style promos (Higgsfield) + 8 Multilingual localized posters (Lovart)", logic: "Focuses on \"Visual-First\" storytelling to capture international tourists in Thailand and Japan." },
+              { name: "Tier 2: The Smart Concierge", price: "$5,500 / month", deliverables: "Tier 1 + 24/7 AI Guest Receptionist (Voice/Chat) handling bookings, FAQs, and local recommendations", logic: "Uses Gemini for high-accuracy multilingual support (Thai/JP/EN) to remove language barriers for guests." },
+              { name: "Tier 3: The Hospitality Empire", price: "$15,000 / month", deliverables: "Tier 2 + Full automated guest onboarding + Real-time sentiment monitoring + Influencer Avatar \"Tour Guides\"", logic: "Replaces entire front-desk or reservation teams with an autonomous, 24/7 intelligence layer." }
+            ],
             ja: {
-              label: "大量生成",
-              title: "クリエイティブ自動化",
-              description: "ブランドデザインを数秒で数百枚生成します。",
-              features: [{ text: "ブランドキット" }, { text: "SNS投稿" }, { text: "レイアウトテンプレート" }]
-            }
-          },
-          {
-            label: "GROWTH ACCELERATION",
-            title: "AI Growth Strategy",
-            description: "Find new customers and reach out to them automatically.",
-            features: [{ text: "Lead finding" }, { text: "Automated emails" }, { text: "Market analysis" }],
-            ja: {
-              label: "成長加速",
-              title: "AI成長戦略",
-              description: "新規顧客を見つけ、自動的にアプローチします。",
-              features: [{ text: "リード発掘" }, { text: "自動メール送信" }, { text: "市場分析" }]
-            }
-          },
-          {
-            label: "SMART RECEPTIONISTS",
-            title: "AI Voice Intelligence",
-            description: "AI that talks like a human to answer calls and make sales.",
-            features: [{ text: "Automated calling" }, { text: "24/7 Phone support" }, { text: "Human-like voice" }],
-            ja: {
-              label: "スマート受付",
-              title: "AI音声インテリジェンス",
-              description: "人間のように話すAIが電話に応対し、セールスを行います。",
-              features: [{ text: "自動通話" }, { text: "24時間電話対応" }, { text: "人間のような声" }]
+              label: "観光＆ホスピタリティ",
+              title: "グローバルゲスト",
+              description: "予約を増やし、ゲストのカスタマージャーニーを自動化するために設計された多言語AIコンシェルジュシステムとシネマティックコンテンツ。",
+              tiers: [
+                { name: "Tier 1: デスティネーションハイプ", price: "$2,500 / 月", deliverables: "シネマティックな「旅行Vlog」風プロモ8本 + 多言語対応のポスター8枚", logic: "タイや日本の国際的な観光客を獲得するための「ビジュアルファースト」のストーリーテリング。" },
+                { name: "Tier 2: スマートコンシェルジュ", price: "$5,500 / 月", deliverables: "Tier 1 + 予約、FAQ、おすすめ情報を処理する24時間365日のAIゲスト受付 (音声/チャット)", logic: "Geminiを使用した高精度の多言語サポートで、ゲストの言語の壁を取り除きます。" },
+                { name: "Tier 3: ホスピタリティエンパイア", price: "$15,000 / 月", deliverables: "Tier 2 + 完全に自動化されたゲストオンボーディング + リアルタイムの感情モニタリング + インフルエンサーアバター「ツアーガイド」", logic: "フロントデスクや予約チーム全体を、自律的な24時間インテリジェンス層に置き換えます。" }
+              ]
             }
           }
         ];
 
-        for (const service of services) {
+        for (const service of newServices) {
           const newService = await strapi.documents('api::service.service').create({
             data: {
               label: service.label,
               title: service.title,
               description: service.description,
-              features: service.features,
+              tiers: service.tiers,
               locale: 'en'
             },
             status: 'published',
@@ -312,43 +333,15 @@ module.exports = {
                 label: service.ja.label,
                 title: service.ja.title,
                 description: service.ja.description,
-                features: service.ja.features,
+                tiers: service.ja.tiers,
               },
               status: 'published'
             });
           }
         }
-        console.log('✅ Services seeded and published (en & ja)');
+        console.log('✅ Tiered Services seeded and published (en & ja)');
       } else {
-        console.log('ℹ️ Services exist');
-        // Retroactive check for JA services
-        const existingServices = await strapi.documents('api::service.service').findMany({ locale: 'en' });
-        for (const serviceDoc of existingServices) {
-          const jaService = await strapi.documents('api::service.service').findFirst({
-            filters: { documentId: serviceDoc.documentId },
-            locale: 'ja-JP'
-          });
-          if (!jaService) {
-            // Simple keyword matching for translation
-            let jaData = {};
-            if (serviceDoc.title.includes("Content")) jaData = { label: "コンテンツ制作", title: "AIコンテンツエンジン", description: "ブランドのための、高速で映画品質の動画とビジュアル。", features: [{ text: "SNS広告" }, { text: "トーキングアバター" }, { text: "マーケティングチラシ" }] };
-            else if (serviceDoc.title.includes("Agents")) jaData = { label: "スマートアシスタント", title: "自律型エージェント", description: "24時間365日、あなたのタスクを処理するAIアシスタント。", features: [{ text: "カスタマーサポートボット" }, { text: "セールスアシスタント" }, { text: "社内ヘルパー" }] };
-            else if (serviceDoc.title.includes("Workflow")) jaData = { label: "自動化", title: "ワークフロー自動化", description: "アプリを連携させて時間を節約し、手作業をなくします。", features: [{ text: "カスタムワークフロー" }, { text: "アプリ連携" }, { text: "CRMデータ同期" }] };
-            else if (serviceDoc.title.includes("Creative")) jaData = { label: "大量生成", title: "クリエイティブ自動化", description: "ブランドデザインを数秒で数百枚生成します。", features: [{ text: "ブランドキット" }, { text: "SNS投稿" }, { text: "レイアウトテンプレート" }] };
-            else if (serviceDoc.title.includes("Growth")) jaData = { label: "成長加速", title: "AI成長戦略", description: "新規顧客を見つけ、自動的にアプローチします。", features: [{ text: "リード発掘" }, { text: "自動メール送信" }, { text: "市場分析" }] };
-            else if (serviceDoc.title.includes("Voice")) jaData = { label: "スマート受付", title: "AI音声インテリジェンス", description: "人間のように話すAIが電話に応対し、セールスを行います。", features: [{ text: "自動通話" }, { text: "24時間電話対応" }, { text: "人間のような声" }] };
-
-            if (jaData.title) {
-              await strapi.documents('api::service.service').update({
-                documentId: serviceDoc.documentId,
-                locale: 'ja-JP',
-                data: jaData,
-                status: 'published'
-              });
-              console.log(`✅ Added JA translation to Service: ${serviceDoc.title}`);
-            }
-          }
-        }
+        console.log('ℹ️ Tiered Services exist');
       }
 
       // 5. Seed Newsletter Data

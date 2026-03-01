@@ -18,8 +18,9 @@ const About = () => {
                     locale: language,
                     populate: 'values'
                 });
-                if (data && data.data && data.data.attributes) {
-                    setAboutData(data.data.attributes);
+                if (data && data.data) {
+                    const attrs = data.data.attributes || data.data;
+                    setAboutData(attrs);
                 }
             } catch (error) {
                 console.error("Failed to load About data:", error);

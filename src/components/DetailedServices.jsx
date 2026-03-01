@@ -5,14 +5,13 @@ import { motion } from 'framer-motion';
 import PricingTierCard from './PricingTierCard';
 
 const DetailedServices = () => {
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
     const [servicesData, setServicesData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadServices = async () => {
             try {
-                // Fetch services and deeply populate tiers
                 const data = await fetchAPI('/services', {
                     locale: language,
                     populate: 'tiers' // Populate the new repeatable component
@@ -36,23 +35,25 @@ const DetailedServices = () => {
             </div>
         );
     }
+    const fallbackData = t('detailedServicesFallback');
+    const displayData = servicesData.length > 0 ? servicesData : fallbackData;
 
     return (
         <div style={{ padding: '80px 0', background: 'var(--color-primary)' }} className="container">
-            {servicesData.length === 0 && (
+            {(!displayData || displayData.length === 0) && (
                 <div style={{ textAlign: 'center', color: 'var(--color-text-muted)' }}>
                     No complete services found. Please add tiered services in Strapi.
                 </div>
             )}
 
-            {servicesData.map((service, sectionIndex) => {
-                const attr = service.attributes;
-                if (!attr) return null;
+            {displayData && displayData.map((service, sectionIndex) => {
+                const attr = service.attributes || service;
+                if (!attr || !attr.title) return null;
 
                 const tiers = attr.tiers || [];
 
                 return (
-                    <div key={service.id} style={{ marginBottom: '120px' }}>
+                    <div key={service.id || service.documentId || sectionIndex} style={{ marginBottom: '120px' }}>
                         {/* Section Header */}
                         <div style={{ marginBottom: '64px', textAlign: 'center', maxWidth: '800px', margin: '0 auto 64px auto' }}>
                             <motion.h2

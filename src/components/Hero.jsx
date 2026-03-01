@@ -19,8 +19,10 @@ const Hero = () => {
                     locale: language,
                     populate: 'backgroundImage'
                 });
-                if (data && data.data && data.data.attributes) {
-                    setHeroData(data.data.attributes);
+                if (data && data.data) {
+                    // Strapi v5 flattens attributes into the data object
+                    const attr = data.data.attributes || data.data;
+                    setHeroData(attr);
                 }
             } catch (error) {
                 console.error("Failed to load Hero data:", error);

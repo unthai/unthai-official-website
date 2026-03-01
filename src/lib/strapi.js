@@ -32,7 +32,7 @@ export const fetchAPI = async (path, urlParamsObject = {}, options = {}) => {
 
     // Trigger API call
     try {
-        constresponse = await fetch(requestUrl, mergedOptions);
+        const response = await fetch(requestUrl, mergedOptions);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -47,10 +47,15 @@ export const fetchAPI = async (path, urlParamsObject = {}, options = {}) => {
  * @returns {string} The full URL to the media
  */
 export const getMediaURL = (media) => {
-    if (!media || !media.data || !media.data.attributes) {
+    if (!media || !media.data) {
         return '';
     }
-    const { url } = media.data.attributes;
+    const data = media.data;
+    // Handle both v4 (data.attributes.url) and v5 (data.url)
+    const url = (data.attributes && data.attributes.url) ? data.attributes.url : data.url;
+
+    if (!url) return '';
+
     const imageUrl = url.startsWith('/') ? getStrapiURL(url) : url;
     return imageUrl;
 };
