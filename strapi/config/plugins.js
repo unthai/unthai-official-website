@@ -36,4 +36,21 @@ module.exports = ({ env }) => ({
     ckeditor: {
         enabled: true
     },
+    'strapi-cache': {
+        enabled: true,
+        config: {
+            debug: false,
+            max: 500,
+            ttl: 3600, // 1 hour in seconds
+            routes: [
+                '/api/hero',
+                '/api/services',
+                '/api/services/*',
+                '/api/newsletter',
+                '/api/about-page',
+                '/api/global-content',
+                '/api/lead-form',
+            ],
+        },
+    },
 });
