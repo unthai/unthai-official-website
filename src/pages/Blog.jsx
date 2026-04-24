@@ -154,18 +154,8 @@ const Blog = () => {
                                 background: 'rgba(255, 255, 255, 0.03)',
                                 border: '1px solid rgba(255, 255, 255, 0.1)',
                                 borderRadius: 'var(--radius-lg)',
-                                overflow: 'hidden',
-                                transition: 'transform 0.2s ease, border-color 0.2s ease',
-                                cursor: 'pointer'
+                                overflow: 'hidden'
                             }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-4px)';
-                                    e.currentTarget.style.borderColor = 'var(--color-accent)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                                }}
                             >
                                 <div style={{ padding: '32px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', fontSize: '14px' }}>
@@ -191,11 +181,11 @@ const Blog = () => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '8px',
-                                        color: 'var(--color-text-main)',
+                                        color: 'var(--color-text-muted)',
                                         fontWeight: 500,
                                         fontSize: '14px'
                                     }}>
-                                        Read Article setup &rarr;
+                                        {format(new Date(post.date), 'MMM d, yyyy')}
                                     </div>
                                 </div>
                             </article>

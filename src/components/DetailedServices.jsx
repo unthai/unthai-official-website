@@ -12,12 +12,15 @@ const DetailedServices = () => {
     useEffect(() => {
         const loadServices = async () => {
             try {
-                const data = await fetchAPI('/services', {
+                const data = await fetchAPI('/detailed-service', {
                     locale: language,
-                    populate: 'tiers' // Populate the new repeatable component
+                    populate: ['blocks', 'blocks.tiers']
                 });
                 if (data && data.data) {
-                    setServicesData(data.data);
+                    const attr = data.data.attributes || data.data;
+                    if (attr && attr.blocks) {
+                        setServicesData(attr.blocks);
+                    }
                 }
             } catch (error) {
                 console.error("Failed to load detailed Services data:", error);
@@ -88,7 +91,7 @@ const DetailedServices = () => {
                         {tiers.length > 0 ? (
                             <div style={{
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
                                 gap: '32px',
                                 alignItems: 'stretch'
                             }}>

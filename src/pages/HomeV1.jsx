@@ -13,8 +13,8 @@ const HomeV1 = () => {
             <main style={{ flex: 1, paddingTop: 'var(--header-height)' }}>
                 <Hero />
                 <Services showActions={false} showMainAction={true} />
-                <Newsletter />
                 <LeadForm />
+                <Newsletter />
             </main>
             <Footer />
         </div>

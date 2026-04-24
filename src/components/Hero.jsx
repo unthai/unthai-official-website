@@ -3,6 +3,7 @@ import { fetchAPI, getMediaURL } from '../lib/strapi';
 
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { ArrowRight, Bot, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 
 import heroBg from '../assets/unthai-ai-automation-bg.png';
@@ -174,11 +175,72 @@ const Hero = () => {
                             fontSize: 'clamp(18px, 2vw, 24px)',
                             color: 'var(--color-text-muted)',
                             maxWidth: '800px',
-                            margin: '0 auto'
+                            margin: '0 auto 40px'
                         }}
                     >
                         {subtitle}
                     </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}
+                    >
+                        <Link
+                            to="/contact"
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '16px 32px',
+                                background: 'var(--color-accent)',
+                                color: 'var(--color-primary)',
+                                borderRadius: 'var(--radius-sm)',
+                                fontWeight: 700,
+                                fontSize: '16px',
+                                textDecoration: 'none',
+                                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 8px 24px rgba(246, 208, 39, 0.3)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = 'none';
+                            }}
+                        >
+                            Start a Project <ArrowRight size={18} />
+                        </Link>
+                        <Link
+                            to="/services"
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '16px 32px',
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                color: 'var(--color-text-main)',
+                                border: '1px solid rgba(255, 255, 255, 0.15)',
+                                borderRadius: 'var(--radius-sm)',
+                                fontWeight: 600,
+                                fontSize: '16px',
+                                textDecoration: 'none',
+                                transition: 'all 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                            }}
+                        >
+                            Explore Services
+                        </Link>
+                    </motion.div>
                 </motion.div>
 
 

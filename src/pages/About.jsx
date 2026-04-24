@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLanguage } from '../LanguageContext';
 import aboutBg from '../assets/unthai-ai-automation-bg.png';
+import { Zap, RefreshCw, Target } from 'lucide-react';
 
 const About = () => {
     const { t, language } = useLanguage();
@@ -51,8 +52,7 @@ const About = () => {
         values = t('about.values.items');
     }
 
-    // Map icons and keys for values
-    const valueIcons = ['⚡', '🔄', '🎯'];
+    const valueIcons = [Zap, RefreshCw, Target];
 
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-text-main)' }}>
@@ -209,8 +209,8 @@ const About = () => {
                                     textAlign: 'center'
                                 }}
                             >
-                                <div style={{ fontSize: '40px', marginBottom: '24px' }}>
-                                    {valueIcons[index % valueIcons.length]}
+                                <div style={{ marginBottom: '24px', color: 'var(--color-accent)' }}>
+                                    {React.createElement(valueIcons[index % valueIcons.length], { size: 40, strokeWidth: 1.5 })}
                                 </div>
                                 <h3 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '16px', color: '#fff' }}>{item.title}</h3>
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '18px' }}>{item.desc}</p>

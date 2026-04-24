@@ -44,14 +44,14 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="nav-desktop">
-          <Link to="/" className="nav-link">{t('nav.home')}</Link>
-          <Link to="/about" className="nav-link">{t('nav.about')}</Link>
-          <Link to="/services" className="nav-link">{t('nav.services')}</Link>
-          <Link to="/blog" className="nav-link">{t('nav.blog')}</Link>
+          <Link to="/" className={`nav-link${location.pathname === '/' ? ' nav-link-active' : ''}`}>{t('nav.home')}</Link>
+          <Link to="/about" className={`nav-link${location.pathname === '/about' ? ' nav-link-active' : ''}`}>{t('nav.about')}</Link>
+          <Link to="/services" className={`nav-link${location.pathname === '/services' ? ' nav-link-active' : ''}`}>{t('nav.services')}</Link>
+          <Link to="/blog" className={`nav-link${location.pathname === '/blog' ? ' nav-link-active' : ''}`}>{t('nav.blog')}</Link>
         </nav>
 
-        {/* Desktop Language Selector */}
-        <div className="language-selector-container cta-desktop">
+        {/* Desktop CTA + Language Selector */}
+        <div className="header-actions cta-desktop">
           <button
             onClick={toggleLanguage}
             className="lang-toggle-btn"
@@ -61,6 +61,7 @@ const Header = () => {
             <span className="divider">|</span>
             <span className={language === 'jp' ? 'active' : ''}>JP</span>
           </button>
+          <Link to="/contact" className="cta-button">{t('nav.getStarted')}</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -86,6 +87,7 @@ const Header = () => {
           <Link to="/about" className="mobile-nav-link">{t('nav.about')}</Link>
           <Link to="/services" className="mobile-nav-link">{t('nav.services')}</Link>
           <Link to="/blog" className="mobile-nav-link">{t('nav.blog')}</Link>
+          <Link to="/contact" className="mobile-nav-link">{t('nav.contact')}</Link>
 
           <div className="mobile-lang-switcher">
             <button

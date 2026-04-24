@@ -7,10 +7,8 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 
 const Services = ({ showActions = false, showMainAction = false }) => {
-    const { t } = useLanguage();
-
+    const { t, language } = useLanguage();
     const [servicesData, setServicesData] = useState([]);
-    const { language } = useLanguage();
 
     const iconMap = {
         'content': BrainCircuit,
@@ -66,7 +64,7 @@ const Services = ({ showActions = false, showMainAction = false }) => {
                 </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '32px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
                 {displayServices.map((item) => {
                     const isStrapi = !!item.id; // Strapi items have IDs
                     const attributes = isStrapi ? (item.attributes || item) : {};
