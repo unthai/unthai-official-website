@@ -1,6 +1,6 @@
 # VPS Infrastructure Documentation
 
-**Last Updated:** 2026-02-06  
+**Last Updated:** 2026-04-27  
 **IP Address:** 31.97.139.175  
 **Provider:** Hostinger  
 **OS:** Ubuntu Linux  
@@ -80,34 +80,39 @@ ssh -L 5432:localhost:5432 root@31.97.139.175 -i ~/.ssh/vps_key
 psql postgresql://postgres:PASSWORD@localhost:5432/[database_name]
 ```
 
-### Static Websites (nginx)
+### Static Websites (nginx) — VPS Remaining
 
-All static sites use `nginx:alpine` image and are served via Traefik with automatic SSL.
+Sites still served from VPS via Traefik + nginx:
 
-1. **tourinthailand.travel**
-   - Container: `tourinthailand`
-   - Path: `/root/tourinthailand/html`
-   - Database: `tourinthailand` (PostgreSQL - for future WordPress)
-
-2. **unth.ai**
-   - Container: `unth-www`
-   - Path: `/root/unth.ai/www`
-
-3. **dashboard.unth.ai**
-   - Container: `unth-dashboard`
+1. **dashboard.unth.ai**
+   - Container: `root-dashboard-backend-1` (Next.js app, not nginx)
    - Path: `/root/unth.ai/dashboard`
-   - Database: `dashboard` (PostgreSQL - for future dynamic app)
-   - Note: Will be replaced with Next.js application
+   - Database: `dashboard` (PostgreSQL)
 
-4. **xclusive-world.com**
-   - Container: `xclusiveworld`
-   - Path: `/root/xclusiveworld/html`
-   - Database: `xclusiveworld` (PostgreSQL - for future WordPress)
+> **Note:** xheart.tv and tourinthailand.travel are also on VPS as WordPress containers.
 
-5. **xheart.tv**
-   - Container: `xheart`
-   - Path: `/root/xheart/html`
-   - Database: `xheart` (PostgreSQL - for future WordPress)
+---
+
+### Migrated to Hostinger Business Hosting (2026-04-27)
+
+The following sites were migrated from VPS nginx containers to Hostinger shared hosting (`145.223.108.64`). Their VPS containers have been stopped.
+
+| Site | Type | Hostinger Path | VPS Container (stopped) |
+|------|------|---------------|------------------------|
+| **unth.ai** | React SPA (Vite build) | `/home/u131528478/domains/unth.ai/public_html/` | `root-unth-www-1` |
+| **xclusive-world.com** | WordPress (preserved on Hostinger) | `/home/u131528478/domains/xclusive-world.com/public_html/` | `root-xclusiveworld-1` |
+| **saas.unth.ai** | Multi-page HTML (58 files) | `/home/u131528478/domains/unth.ai/public_html/saas.unth.ai/` | `root-saas-platform-1` |
+| **alex.unth.ai** | Static HTML resume | `/home/u131528478/domains/unth.ai/public_html/alex.unth.ai/` | `root-alex-resume-1` |
+| **5rbattery.unth.ai** | React SPA (Vite + .htaccess) | `/home/u131528478/domains/unth.ai/public_html/5rbattery.unth.ai/` | `root-5rbattery-1` |
+| **louisstoeri.unth.ai** | Static HTML/CSS | `/home/u131528478/domains/unth.ai/public_html/louisstoeri.unth.ai/` | `root-louisstoeri-1` |
+
+**Hostinger FTP access:**
+- Hostname: `ftp://145.223.108.64`
+- Main account: `u131528478` / `180185God2026!!!`
+- Per-domain sub-account: `u131528478.unth.ai` / `180185God2026!!!`
+- xclusive-world.com: `u131528478` (main account) / same password
+
+**DNS:** All 6 domains/subdomains now point to Hostinger IPs (@ → `145.223.108.64`). DNS managed via Hostinger API (token in project secrets).
 
 ---
 
@@ -362,6 +367,15 @@ crontab -l | grep backup-postgres
 ---
 
 ## Changelog
+
+### 2026-04-27 - Static Sites Migrated to Hostinger
+- Migrated 6 static/basic sites from VPS nginx containers to Hostinger Business Hosting (145.223.108.64)
+- Sites migrated: unth.ai, xclusive-world.com, saas.unth.ai, alex.unth.ai, 5rbattery.unth.ai, louisstoeri.unth.ai
+- Stopped VPS containers: root-unth-www-1, root-xclusiveworld-1, root-saas-platform-1, root-alex-resume-1, root-5rbattery-1, root-louisstoeri-1
+- xclusive-world.com: WordPress preserved on Hostinger (not overwritten), DNS flipped
+- DNS updated for all 6 via Hostinger API (overwrite:true on A records)
+- Created Hostinger subdomains via API (order_id: 1007521660) for saas, alex, 5rbattery, louisstoeri
+- React SPAs (unth.ai, 5rbattery.unth.ai) include .htaccess for client-side routing
 
 ### 2026-02-06 - PostgreSQL Deployment
 - Deployed PostgreSQL 16-alpine via Docker Compose
