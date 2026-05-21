@@ -6,13 +6,39 @@ import { fetchAPI } from './lib/strapi';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState('en');
+    const [language, setLanguage] = useState(() => localStorage.getItem('lang') || 'en');
 
     const [translations, setTranslations] = useState(localTranslations);
 
     useEffect(() => {
-        // Update document lang
+        // Update document lang and persist choice
         document.documentElement.lang = language;
+        localStorage.setItem('lang', language);
+
+        // Update meta title + description
+        const lang = localTranslations[language];
+        if (lang?.meta?.title) {
+            document.title = lang.meta.title;
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.name = 'description';
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = lang.meta.description || '';
+
+            // OG tags
+            const setOg = (prop, val) => {
+                let el = document.querySelector(`meta[property="${prop}"]`);
+                if (!el) { el = document.createElement('meta'); el.setAttribute('property', prop); document.head.appendChild(el); }
+                el.content = val;
+            };
+            setOg('og:title', lang.meta.title);
+            setOg('og:description', lang.meta.description || '');
+            setOg('og:url', window.location.href);
+            setOg('og:type', 'website');
+            setOg('og:image', 'https://unth.ai/og-image.png');
+        }
 
         const loadTranslations = async () => {
             const controller = new AbortController();

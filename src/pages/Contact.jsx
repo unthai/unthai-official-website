@@ -1,13 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Seo, { SITE_URL } from '../components/Seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
-import heroBg from '../assets/unthai-ai-automation-bg.png';
+import heroBg from '../assets/unthai-ai-automation-bg.webp';
 
 const Contact = () => {
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        url: `${SITE_URL}/contact`,
+        about: { '@type': 'Organization', name: 'UNTH.AI', url: SITE_URL },
+    };
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-text-main)' }}>
+            <Seo
+                title="Contact"
+                description="Start a project with UNTH.AI. Tell us what you need — AI agents, automation, or content systems."
+                path="/contact"
+                jsonLd={jsonLd}
+            />
             <Header />
 
             {/* Hero Section */}
@@ -110,7 +123,7 @@ const Contact = () => {
                         </a>
                     </motion.div>
 
-                    {/* Location */}
+                    {/* Locations */}
                     <motion.div
                         whileHover={{ y: -5 }}
                         style={{
@@ -122,11 +135,18 @@ const Contact = () => {
                         }}
                     >
                         <div style={{ fontSize: '32px', marginBottom: '16px' }}>📍</div>
-                        <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px', color: '#fff' }}>Based In</h3>
-                        <p style={{ color: 'var(--color-text-muted)', fontSize: '16px' }}>
-                            Bangkok, Thailand<br />
-                            <span style={{ fontSize: '14px' }}>Serving globally</span>
-                        </p>
+                        <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '12px', color: '#fff' }}>Our Offices</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <div>
+                                <span style={{ fontSize: '18px' }}>🇹🇭</span>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '15px', margin: '2px 0 0' }}>Bangkok, Thailand</p>
+                            </div>
+                            <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.08)', margin: '0 auto' }} />
+                            <div>
+                                <span style={{ fontSize: '18px' }}>🇯🇵</span>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '15px', margin: '2px 0 0' }}>Osaka, Japan</p>
+                            </div>
+                        </div>
                     </motion.div>
 
                     {/* Response Time */}

@@ -1,0 +1,30 @@
+{
+    "kind": "singleType",
+    "collectionName": "detailed_services",
+    "info": {
+        "singularName": "detailed-service",
+        "pluralName": "detailed-services",
+        "displayName": "Detailed Service",
+        "description": "Content for the Detailed Services blocks"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "blocks": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.detailed-service-block",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +8,10 @@ import Footer from '../components/Footer';
 const NotFound = () => {
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: 'var(--color-text-main)' }}>
+            <Helmet>
+                <title>404 — Page Not Found — UNTH.AI</title>
+                <meta name="robots" content="noindex,follow" />
+            </Helmet>
             <Header />
             <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 'var(--header-height)' }}>
                 <div style={{ textAlign: 'center', padding: '80px 24px' }}>

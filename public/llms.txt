@@ -1,0 +1,24 @@
+# UNTH.AI
+
+> AI-powered creative and automation agency. We build AI systems, autonomous agents, workflow automation (n8n / custom), and content engines for businesses that want measurable outcomes, not chatbots.
+
+## About
+
+- [Home](https://unth.ai/): What we do and how the system works
+- [Services](https://unth.ai/services): AI agents, automation pipelines, content engines
+- [About](https://unth.ai/about): The team and the mandate
+- [Contact](https://unth.ai/contact): Start a project
+
+## Blog
+
+- [The Rise of Autonomous AI Agents in Enterprise](https://unth.ai/blog/rise-of-autonomous-ai-agents-in-enterprise): How intelligent agents are transforming business workflows from reactive to proactive systems.
+- [Generative UI: Beyond Static Interfaces](https://unth.ai/blog/generative-ui-beyond-static-interfaces): Exploring the shift towards fluid, context-aware user interfaces generated on the fly by AI.
+- [Optimizing n8n Workflows for Scale](https://unth.ai/blog/optimizing-n8n-workflows-for-scale): Best practices for building robust, error-tolerant automation pipelines that handle thousands of executions.
+- [The Future of Low-Code Development with AI](https://unth.ai/blog/future-of-low-code-development-with-ai): How AI-assisted coding is bridging the gap between no-code simplicity and pro-code power.
+- [Building Resilient Data Pipelines](https://unth.ai/blog/building-resilient-data-pipelines): Architectural patterns for ensuring data integrity and availability in modern cloud environments.
+- [From Chatbots to Digital Employees](https://unth.ai/blog/from-chatbots-to-digital-employees): The evolution of conversational interfaces into fully autonomous digital workers capable of complex tasks.
+
+## Resources
+
+- [Sitemap](https://unth.ai/sitemap.xml)
+- [llms-full.txt](https://unth.ai/llms-full.txt) — full content for offline LLM ingestion

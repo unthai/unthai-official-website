@@ -1,15 +1,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Seo, { SITE_URL } from '../components/Seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import DetailedServices from '../components/DetailedServices';
 import { useLanguage } from '../LanguageContext';
-import heroBg from '../assets/unthai-ai-automation-bg.png';
+import heroBg from '../assets/unthai-ai-automation-bg.webp';
 
 const ServicesPage = () => {
     const { t } = useLanguage();
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        serviceType: 'AI development, automation, and content engineering',
+        provider: { '@type': 'Organization', name: 'UNTH.AI', url: SITE_URL },
+        areaServed: 'Worldwide',
+        url: `${SITE_URL}/services`,
+        description: 'AI agents, workflow automation (n8n / custom), and content production systems built for measurable business outcomes.',
+    };
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-text-main)' }}>
+            <Seo
+                title="Services"
+                description="AI agents, workflow automation, and content engines built for measurable business outcomes."
+                path="/services"
+                jsonLd={jsonLd}
+            />
             <Header />
 
             {/* Hero Section */}

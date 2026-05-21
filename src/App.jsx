@@ -1,27 +1,36 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomeV1 from './pages/HomeV1';
-import Blog from './pages/Blog';
-import ServicesPage from './pages/ServicesPage';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 import { LanguageProvider } from './LanguageContext';
+
+const About = React.lazy(() => import('./pages/About'));
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const Blog = React.lazy(() => import('./pages/Blog'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+
+const PageFallback = () => (
+  <div style={{ minHeight: '100vh', background: 'var(--color-primary)' }} />
+);
 
 function App() {
   return (
     <LanguageProvider>
       <Router>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomeV1 />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<HomeV1 />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </Router>
     </LanguageProvider>
   );

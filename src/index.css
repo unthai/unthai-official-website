@@ -118,3 +118,51 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-surface-hover);
 }
+
+/* ── Mobile ────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-content {
+    padding-top: 24px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* HowItWorks / Testimonials: full-width cards */
+  .hiw-step,
+  .testimonial-card {
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Hide horizontal arrows between steps */
+  .hiw-arrow {
+    display: none !important;
+  }
+
+  /* StatsBar: hide vertical dividers, center items */
+  .stats-divider {
+    display: none !important;
+  }
+
+  /* Footer nav: center on mobile */
+  .footer-nav {
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  /* Footer top row: stack on mobile */
+  .footer-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-padding {
+    padding: 56px 0;
+  }
+}

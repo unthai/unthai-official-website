@@ -7,22 +7,40 @@ const ServiceCard = ({ title, description, features, type = 'b2b', label, showAc
 
     return (
         <motion.div
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -6, boxShadow: '0 8px 32px rgba(246,208,39,0.10)' }}
+            transition={{ duration: 0.22 }}
             style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(246,208,39,0.08)',
                 borderRadius: 'var(--radius-md)',
                 padding: '32px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '24px',
-                height: '100%'
+                height: '100%',
+                position: 'relative',
+                overflow: 'hidden'
             }}
         >
+            {/* Subtle top accent line */}
+            <div style={{
+                position: 'absolute', top: 0, left: '32px', right: '32px',
+                height: '1px',
+                background: 'linear-gradient(90deg, var(--color-accent), transparent)',
+                opacity: 0.4
+            }} />
+
             <div>
                 {Icon && (
-                    <div style={{ marginBottom: '24px' }}>
-                        <Icon size={40} color="var(--color-accent)" strokeWidth={1.5} />
+                    <div style={{
+                        marginBottom: '24px',
+                        width: '52px', height: '52px',
+                        borderRadius: '12px',
+                        background: 'rgba(246,208,39,0.1)',
+                        border: '1px solid rgba(246,208,39,0.18)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        <Icon size={26} color="var(--color-accent)" strokeWidth={1.5} />
                     </div>
                 )}
                 <div style={{

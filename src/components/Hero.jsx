@@ -6,7 +6,7 @@ import { ArrowRight, Bot, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 
-import heroBg from '../assets/unthai-ai-automation-bg.png';
+import heroBg from '../assets/unthai-ai-automation-bg.webp';
 
 const Hero = () => {
     const { t, language } = useLanguage();
@@ -52,7 +52,7 @@ const Hero = () => {
     return (
         <section
             onMouseMove={handleMouseMove}
-            style={{ position: 'relative', width: '100%', minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}
+            style={{ position: 'relative', width: '100%', minHeight: '40vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}
         >
             {/* Background Container */}
             <div style={{
@@ -125,7 +125,7 @@ const Hero = () => {
                 />
             </div>
 
-            <div className="container" style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
+            <div className="container hero-content" style={{ position: 'relative', zIndex: 1, padding: '80px 24px' }}>
                 <motion.div
                     style={{ marginBottom: '64px', textAlign: 'center' }}
                     initial={{ opacity: 0, y: 20 }}
@@ -211,7 +211,7 @@ const Hero = () => {
                                 e.currentTarget.style.boxShadow = 'none';
                             }}
                         >
-                            Start a Project <ArrowRight size={18} />
+                            {t('hero.ctaPrimary')} <ArrowRight size={18} />
                         </Link>
                         <Link
                             to="/services"
@@ -220,9 +220,9 @@ const Hero = () => {
                                 alignItems: 'center',
                                 gap: '8px',
                                 padding: '16px 32px',
-                                background: 'rgba(255, 255, 255, 0.05)',
-                                color: 'var(--color-text-main)',
-                                border: '1px solid rgba(255, 255, 255, 0.15)',
+                                background: 'transparent',
+                                color: 'var(--color-accent)',
+                                border: '1px solid var(--color-accent)',
                                 borderRadius: 'var(--radius-sm)',
                                 fontWeight: 600,
                                 fontSize: '16px',
@@ -230,15 +230,13 @@ const Hero = () => {
                                 transition: 'all 0.2s ease'
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                                e.currentTarget.style.background = 'rgba(246, 208, 39, 0.1)';
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                                e.currentTarget.style.background = 'transparent';
                             }}
                         >
-                            Explore Services
+                            {t('hero.ctaSecondary')}
                         </Link>
                     </motion.div>
                 </motion.div>

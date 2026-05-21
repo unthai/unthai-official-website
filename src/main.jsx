@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { HelmetProvider } from 'react-helmet-async'
 import './index.css'
 import App from './App.jsx'
 
@@ -15,7 +16,9 @@ try {
   const root = createRoot(document.getElementById('root'));
   root.render(
     <StrictMode>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </StrictMode>,
   );
   console.log('React mount initiated.');

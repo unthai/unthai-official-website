@@ -1,0 +1,91 @@
+# UNTH.AI — robots.txt
+# We want indexing + AI citations. Be explicit so no bot has to guess.
+
+User-agent: *
+Allow: /
+
+# Major search crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# AI training + answer engines — explicitly welcomed.
+# We are an AI agency; we want our content cited in LLM answers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: DiffBot
+Allow: /
+
+# Block content scrapers that do not declare a research / search purpose.
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap + host
+Host: https://unth.ai
+Sitemap: https://unth.ai/sitemap.xml

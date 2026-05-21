@@ -1,0 +1,23 @@
+{
+  "name": "UNTH.AI",
+  "short_name": "UNTH.AI",
+  "description": "AI-powered creative and automation agency.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#051224",
+  "theme_color": "#051224",
+  "icons": [
+    {
+      "src": "/unthai-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/unthai-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

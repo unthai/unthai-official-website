@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { fetchAPI } from '../lib/strapi';
+import Seo, { SITE_URL } from '../components/Seo';
 
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLanguage } from '../LanguageContext';
-import aboutBg from '../assets/unthai-ai-automation-bg.png';
+import aboutBg from '../assets/unthai-ai-automation-bg.webp';
 import { Zap, RefreshCw, Target } from 'lucide-react';
 
 const About = () => {
@@ -56,6 +57,17 @@ const About = () => {
 
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-text-main)' }}>
+            <Seo
+                title="About"
+                description="UNTH.AI builds AI agents, automation pipelines, and content engines for ambitious teams. Learn the mandate, the people, and the system behind the work."
+                path="/about"
+                jsonLd={{
+                    '@context': 'https://schema.org',
+                    '@type': 'AboutPage',
+                    name: 'About UNTH.AI',
+                    url: `${SITE_URL}/about`,
+                }}
+            />
             <Header />
 
             {/* 1. Hero: The UNTHAI Mandate */}

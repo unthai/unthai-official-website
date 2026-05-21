@@ -1,0 +1,11 @@
+/* TEAM */
+Founder: Mathieu Buglet
+Site: https://unth.ai
+Email: mat@unth.ai
+Location: Bangkok, Thailand
+
+/* SITE */
+Last update: 2026-05-21
+Standards: HTML5, CSS3, JSON-LD, Schema.org
+Components: React 19, Vite, react-router, react-helmet-async, framer-motion
+Backend: Strapi CMS (optional), static fallback

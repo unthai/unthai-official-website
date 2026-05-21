@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_shared_detailed_service_blocks",
+  "info": {
+    "displayName": "DetailedServiceBlock",
+    "icon": "layer",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "tiers": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.pricing-tier"
+    }
+  }
+}

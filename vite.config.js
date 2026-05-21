@@ -12,5 +12,21 @@ export default defineConfig({
         secure: false,
       }
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined
+          if (/[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/.test(id)) return 'react-vendor'
+          if (/[\\/]node_modules[\\/]framer-motion[\\/]/.test(id)) return 'framer'
+          if (/[\\/]node_modules[\\/]lucide-react[\\/]/.test(id)) return 'icons'
+          if (/[\\/]node_modules[\\/]react-helmet-async[\\/]/.test(id)) return 'seo'
+          if (/[\\/]node_modules[\\/]date-fns[\\/]/.test(id)) return 'date'
+          return undefined
+        }
+      }
+    }
   }
 })

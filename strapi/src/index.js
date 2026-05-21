@@ -480,6 +480,8 @@ module.exports = {
           'api::newsletter.newsletter.findOne',
           'api::lead-form.lead-form.find',
           'api::lead-form.lead-form.findOne',
+          'api::detailed-service.detailed-service.find',
+          'api::detailed-service.detailed-service.findOne',
         ];
 
         for (const action of permissionsToEnable) {
