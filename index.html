@@ -8,6 +8,10 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#051224" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security: Hostinger nginx ignores .htaccess. CSP + Referrer set via <meta>.
+       For full HSTS / X-Frame-Options / Permissions-Policy → put Cloudflare in front. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://api.unth.ai https://www.google-analytics.com https://*.analytics.google.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <!-- Preload above-the-fold OG image (used by social cards + JSON-LD).
        NOTE: the hero LCP image is hashed by Vite, so its <link rel="preload">
