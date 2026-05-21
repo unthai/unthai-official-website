@@ -50,7 +50,7 @@ const HomeV1 = () => {
                 jsonLd={jsonLd}
             />
             <Header />
-            <main style={{ flex: 1, paddingTop: 'var(--header-height)' }}>
+            <main id="main-content" style={{ flex: 1, paddingTop: 'var(--header-height)' }}>
                 <Hero />
                 <StatsBar />
                 <Services showActions={false} showMainAction={true} />

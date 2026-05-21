@@ -24,7 +24,7 @@ const Contact = () => {
             <Header />
 
             {/* Hero Section */}
-            <section style={{
+            <section id="main-content" style={{
                 position: 'relative',
                 minHeight: '280px',
                 display: 'flex',

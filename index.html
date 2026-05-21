@@ -8,12 +8,11 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#051224" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap"
-    rel="stylesheet">
+  <!-- Preload above-the-fold OG image (used by social cards + JSON-LD).
+       NOTE: the hero LCP image is hashed by Vite, so its <link rel="preload">
+       is injected from inside the React <Hero> component via useEffect. -->
+  <link rel="preload" as="image" fetchpriority="high" href="/og-image.png" />
   <title>UNTH.AI — AI-Powered Creative & Automation Agency</title>
   <meta name="description" content="UNTH.AI builds AI systems, automation workflows, and content engines for businesses. We deliver results through intelligent automation, AI agents, and creative tools." />
   <meta name="keywords" content="AI agency, automation, AI agents, content creation, workflow automation, Bangkok, Thailand" />
@@ -59,15 +58,8 @@
   }
   </script>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5X2PE3YNV"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-Q5X2PE3YNV');
-  </script>
+  <!-- Google Analytics is loaded by <CookieConsent /> only after the user
+       grants consent (GDPR compliance). See src/components/CookieConsent.jsx -->
 </head>
 
 <body>

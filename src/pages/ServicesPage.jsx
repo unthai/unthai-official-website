@@ -92,7 +92,7 @@ const ServicesPage = () => {
             </section>
 
             {/* Services Section */}
-            <main>
+            <main id="main-content">
                 <DetailedServices />
             </main>
 

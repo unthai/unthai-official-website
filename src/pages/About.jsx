@@ -71,7 +71,7 @@ const About = () => {
             <Header />
 
             {/* 1. Hero: The UNTHAI Mandate */}
-            <section style={{
+            <section id="main-content" style={{
                 position: 'relative',
                 minHeight: '280px',
                 display: 'flex',

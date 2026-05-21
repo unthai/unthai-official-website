@@ -1,3 +1,4 @@
+// TODO: add Cloudflare Turnstile widget — needs sitekey, see https://www.cloudflare.com/products/turnstile/
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
@@ -5,6 +6,10 @@ import { useLanguage } from '../LanguageContext';
 import './LeadForm.css';
 
 import { fetchAPI } from '../lib/strapi';
+
+const RATE_LIMIT_KEY = 'unthai_lead_last_submit';
+const RATE_LIMIT_MS = 60 * 1000;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LeadForm = () => {
     const { t, language } = useLanguage();
@@ -14,6 +19,8 @@ const LeadForm = () => {
         interests: [],
         message: ''
     });
+    const [honeypot, setHoneypot] = useState('');
+    const [errors, setErrors] = useState({});
     const [leadFormData, setLeadFormData] = useState(null);
 
     useEffect(() => {
@@ -49,10 +56,51 @@ const LeadForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Honeypot: bots fill hidden field — silently fake success.
+        if (honeypot !== '') {
+            setStatus('success');
+            setFormData({ name: '', email: '', interests: [], message: '' });
+            setTimeout(() => setStatus('idle'), 3000);
+            return;
+        }
+
+        // Client-side rate limit (60s window via localStorage).
+        try {
+            const last = typeof window !== 'undefined' ? window.localStorage.getItem(RATE_LIMIT_KEY) : null;
+            if (last && Date.now() - parseInt(last, 10) < RATE_LIMIT_MS) {
+                setErrors({ form: 'Please wait a minute before submitting again.' });
+                return;
+            }
+        } catch (_) { /* localStorage unavailable, skip */ }
+
+        // Required field validation + trim.
+        const name = (formData.name || '').trim();
+        const email = (formData.email || '').trim();
+        const message = (formData.message || '').trim();
+        const nextErrors = {};
+        if (!name) nextErrors.name = 'Name is required.';
+        if (!email) nextErrors.email = 'Email is required.';
+        else if (!EMAIL_PATTERN.test(email)) nextErrors.email = 'Please enter a valid email address.';
+        if (Object.keys(nextErrors).length > 0) {
+            setErrors(nextErrors);
+            return;
+        }
+        setErrors({});
+
+        const trimmed = { ...formData, name, email, message };
         setStatus('submitting');
 
         // Get webhook URL from env or fallback
         const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
+
+        const markSubmitted = () => {
+            try {
+                if (typeof window !== 'undefined') {
+                    window.localStorage.setItem(RATE_LIMIT_KEY, String(Date.now()));
+                }
+            } catch (_) { /* ignore */ }
+        };
 
         if (!webhookUrl) {
             console.warn('Webhook URL not configured');
@@ -61,6 +109,7 @@ const LeadForm = () => {
                 setStatus('success');
                 setTimeout(() => setStatus('idle'), 3000);
                 setFormData({ name: '', email: '', interests: [], message: '' });
+                markSubmitted();
             }, 1000);
             return;
         }
@@ -72,7 +121,7 @@ const LeadForm = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ...formData,
+                    ...trimmed,
                     timestamp: new Date().toISOString(),
                     source: 'unthai_v1_website'
                 }),
@@ -81,6 +130,7 @@ const LeadForm = () => {
             if (response.ok) {
                 setStatus('success');
                 setFormData({ name: '', email: '', interests: [], message: '' });
+                markSubmitted();
                 setTimeout(() => setStatus('idle'), 5000);
             } else {
                 setStatus('error');
@@ -122,7 +172,19 @@ const LeadForm = () => {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="lead-form">
+                <form onSubmit={handleSubmit} className="lead-form" noValidate>
+                    {/* Honeypot — hidden from humans, irresistible to bots */}
+                    <input
+                        type="text"
+                        name="website"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        style={{ position: 'absolute', left: '-10000px', top: 'auto', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+                    />
+
                     {/* Name & Email Row */}
                     <div className="lead-form-row">
                         <div className="lead-form-field">
@@ -134,20 +196,33 @@ const LeadForm = () => {
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder={nameLabel}
+                                aria-invalid={errors.name ? 'true' : 'false'}
                             />
+                            {errors.name && (
+                                <p className="lead-form-error" role="alert" style={{ color: '#ff6b6b', fontSize: '0.875rem', marginTop: '4px' }}>{errors.name}</p>
+                            )}
                         </div>
                         <div className="lead-form-field">
                             <label className="lead-form-label">{emailLabel}</label>
                             <input
                                 type="email"
                                 required
+                                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                                 className="lead-form-input"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 placeholder={emailLabel}
+                                aria-invalid={errors.email ? 'true' : 'false'}
                             />
+                            {errors.email && (
+                                <p className="lead-form-error" role="alert" style={{ color: '#ff6b6b', fontSize: '0.875rem', marginTop: '4px' }}>{errors.email}</p>
+                            )}
                         </div>
                     </div>
+
+                    {errors.form && (
+                        <p className="lead-form-error" role="alert" style={{ color: '#ff6b6b', fontSize: '0.875rem' }}>{errors.form}</p>
+                    )}
 
                     {/* Interests */}
                     <div className="lead-form-field">

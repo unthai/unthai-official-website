@@ -13,6 +13,19 @@ const Hero = () => {
     const [activeSegment, setActiveSegment] = useState(null);
     const [heroData, setHeroData] = useState(null);
 
+    // Preload the LCP hero background image. Vite hashes the filename at
+    // build time so we cannot hard-code the URL in index.html; injecting the
+    // <link rel="preload"> from here guarantees the correct hashed path.
+    useEffect(() => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = heroBg;
+        link.fetchPriority = 'high';
+        document.head.appendChild(link);
+        return () => { document.head.removeChild(link); };
+    }, []);
+
     useEffect(() => {
         const loadHeroData = async () => {
             try {

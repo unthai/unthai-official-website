@@ -116,7 +116,7 @@ const Blog = () => {
                 </div>
             </section>
 
-            <main style={{ flex: 1 }}>
+            <main id="main-content" style={{ flex: 1 }}>
                 {/* Blog Grid */}
                 <section className="container" style={{ padding: '0 24px 80px' }}>
                     {loading ? (

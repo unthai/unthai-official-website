@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/outfit'
 import './index.css'
 import App from './App.jsx'
 

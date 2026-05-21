@@ -13,7 +13,7 @@ const NotFound = () => {
                 <meta name="robots" content="noindex,follow" />
             </Helmet>
             <Header />
-            <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 'var(--header-height)' }}>
+            <main id="main-content" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 'var(--header-height)' }}>
                 <div style={{ textAlign: 'center', padding: '80px 24px' }}>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

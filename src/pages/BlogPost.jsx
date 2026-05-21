@@ -197,7 +197,7 @@ const BlogPost = () => {
                 </div>
             </section>
 
-            <main style={{ flex: 1 }}>
+            <main id="main-content" style={{ flex: 1 }}>
                 {/* Featured Image */}
                 {post.image && (
                     <div className="container" style={{ maxWidth: '900px', margin: '0 auto -40px', padding: '0 24px', position: 'relative', zIndex: 2 }}>
