@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations as localTranslations } from './translations';
-import { fetchAPI } from './lib/strapi';
+import { fetchAPICached } from './lib/strapi';
 
 
 const LanguageContext = createContext();
@@ -46,8 +46,7 @@ export const LanguageProvider = ({ children }) => {
 
             try {
                 // Fetch global translations
-                console.log("Fetching Strapi translations (v5)...");
-                const globalData = await fetchAPI('/global-content', { locale: language }, { signal: controller.signal });
+                const globalData = await fetchAPICached('/global-content', { locale: language }, { signal: controller.signal, cacheTtl: 10 * 60 * 1000 });
                 clearTimeout(timeoutId);
 
                 if (globalData && globalData.data) {

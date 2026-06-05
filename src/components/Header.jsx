@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 import './Header.css';
 import logo from '../assets/unthai-logo.png';
+import CalendlyButton from './CalendlyButton';
+import { trackCtaClick } from '../lib/analytics';
 
 const LANGUAGES = [
   { code: 'en', flag: '🇬🇧', label: 'English' },
@@ -77,6 +79,7 @@ const Header = () => {
         <nav className="nav-desktop">
           <Link to="/" className={`nav-link${location.pathname === '/' ? ' nav-link-active' : ''}`}>{t('nav.home')}</Link>
           <Link to="/about" className={`nav-link${location.pathname === '/about' ? ' nav-link-active' : ''}`}>{t('nav.about')}</Link>
+          <Link to="/work" className={`nav-link${location.pathname === '/work' ? ' nav-link-active' : ''}`}>{t('nav.work')}</Link>
           <Link to="/services" className={`nav-link${location.pathname === '/services' ? ' nav-link-active' : ''}`}>{t('nav.services')}</Link>
           <Link to="/blog" className={`nav-link${location.pathname === '/blog' ? ' nav-link-active' : ''}`}>{t('nav.blog')}</Link>
           <Link to="/contact" className={`nav-link${location.pathname === '/contact' ? ' nav-link-active' : ''}`}>{t('nav.contact')}</Link>
@@ -113,7 +116,8 @@ const Header = () => {
               </ul>
             )}
           </div>
-          <Link to="/contact" className="cta-button">{t('nav.getStarted')}</Link>
+          <CalendlyButton variant="ghost" label="Book a Call" />
+          <Link to="/contact" className="cta-button" onClick={() => trackCtaClick({ label: 'header_get_started', location: 'header' })}>{t('nav.getStarted')}</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -137,6 +141,7 @@ const Header = () => {
         <div className="mobile-nav-content">
           <Link to="/" className="mobile-nav-link">{t('nav.home')}</Link>
           <Link to="/about" className="mobile-nav-link">{t('nav.about')}</Link>
+          <Link to="/work" className="mobile-nav-link">{t('nav.work')}</Link>
           <Link to="/services" className="mobile-nav-link">{t('nav.services')}</Link>
           <Link to="/blog" className="mobile-nav-link">{t('nav.blog')}</Link>
           <Link to="/contact" className="mobile-nav-link">{t('nav.contact')}</Link>
@@ -151,6 +156,9 @@ const Header = () => {
                 {lang.flag} {lang.code.toUpperCase()}
               </button>
             ))}
+          </div>
+          <div style={{ padding: '16px 20px 0' }}>
+            <CalendlyButton variant="primary" label="Book a Call" />
           </div>
         </div>
       </nav>

@@ -4,14 +4,26 @@ import Seo, { SITE_URL } from '../components/Seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
+import CalendlyButton from '../components/CalendlyButton';
 import heroBg from '../assets/unthai-ai-automation-bg.webp';
 
 const Contact = () => {
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'ContactPage',
-        url: `${SITE_URL}/contact`,
-        about: { '@type': 'Organization', name: 'UNTH.AI', url: SITE_URL },
+        '@graph': [
+            {
+                '@type': 'ContactPage',
+                url: `${SITE_URL}/contact`,
+                about: { '@type': 'Organization', name: 'UNTH.AI', url: SITE_URL },
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+                    { '@type': 'ListItem', position: 2, name: 'Contact', item: `${SITE_URL}/contact` },
+                ],
+            },
+        ],
     };
     return (
         <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-text-main)' }}>
@@ -166,6 +178,26 @@ const Contact = () => {
                             Within 24 hours<br />
                             <span style={{ fontSize: '14px' }}>Usually faster</span>
                         </p>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Calendly Booking Section */}
+            <section className="section-padding" style={{ background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="container" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, marginBottom: '16px' }}>
+                            Prefer to talk first?
+                        </h2>
+                        <p style={{ color: 'var(--color-text-muted)', fontSize: '18px', marginBottom: '32px', lineHeight: 1.6 }}>
+                            Skip the form and book a 30-minute strategy call directly. 
+                            We'll discuss your goals, assess fit, and outline a plan — no commitment.
+                        </p>
+                        <CalendlyButton variant="primary" label="Book Your Free Strategy Call" />
                     </motion.div>
                 </div>
             </section>

@@ -7,6 +7,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
 import heroBg from '../assets/unthai-ai-automation-bg.webp';
+
+import { trackCtaClick } from '../lib/analytics';
 import { fetchPostBySlug, fetchPosts } from '../data/postsClient';
 
 const SITE_URL = 'https://unth.ai';
@@ -257,6 +259,7 @@ const BlogPost = () => {
                         </p>
                         <Link
                             to="/contact"
+                            onClick={() => trackCtaClick({ label: 'blog_post_cta', location: 'blog_post' })}
                             style={{
                                 display: 'inline-block',
                                 padding: '12px 28px',

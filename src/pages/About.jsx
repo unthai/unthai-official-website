@@ -61,11 +61,23 @@ const About = () => {
                 title="About"
                 description="UNTH.AI builds AI agents, automation pipelines, and content engines for ambitious teams. Learn the mandate, the people, and the system behind the work."
                 path="/about"
+                lang={language}
                 jsonLd={{
                     '@context': 'https://schema.org',
-                    '@type': 'AboutPage',
-                    name: 'About UNTH.AI',
-                    url: `${SITE_URL}/about`,
+                    '@graph': [
+                        {
+                            '@type': 'AboutPage',
+                            name: 'About UNTH.AI',
+                            url: `${SITE_URL}/about`,
+                        },
+                        {
+                            '@type': 'BreadcrumbList',
+                            itemListElement: [
+                                { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+                                { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE_URL}/about` },
+                            ],
+                        },
+                    ],
                 }}
             />
             <Header />

@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+import { trackCtaClick } from '../lib/analytics';
+
 const ServiceCard = ({ title, description, features, type = 'b2b', label, showActions = true, icon: Icon }) => {
     const isB2B = type === 'b2b';
 
@@ -70,7 +72,7 @@ const ServiceCard = ({ title, description, features, type = 'b2b', label, showAc
             </ul>
 
             {showActions && (
-                <Link to="/services" style={{
+                <Link to="/services" onClick={() => trackCtaClick({ label: 'service_card_read_more', location: 'service_card' })} style={{
                     marginTop: 'auto',
                     textAlign: 'center',
                     width: '100%',

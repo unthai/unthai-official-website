@@ -10,6 +10,11 @@ export default defineConfig({
         target: 'https://n8n.unth.ai',
         changeOrigin: true,
         secure: false,
+      },
+      '/api': {
+        target: 'https://api.unth.ai',
+        changeOrigin: true,
+        secure: false,
       }
     }
   },

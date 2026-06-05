@@ -1,0 +1,11 @@
+# Cloudflare Pages SPA routing
+# Docs: https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# NOTE: This file is only active when _worker.js is NOT deployed.
+#       _worker.js in the output directory takes priority and handles SPA routing itself.
+#       Keep both files; _redirects serves as a simpler fallback for direct uploads.
+#
+# Syntax:   [source]  [destination]  [status]
+# /* → /index.html with 200 = serve index.html for all unmatched routes
+
+/*    /index.html    200

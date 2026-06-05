@@ -1,0 +1,12 @@
+# False positives in planning documents.
+# These are either example/placeholder values or operational tokens already
+# documented in the project primer (~/.claude/rules/unthai-official-website-primer.md).
+# The CF token is zone-scoped (cache purge only) and appears in multiple planning docs.
+
+# Example IndexNow key used as illustration in 02-02-PLAN.md (not a real key)
+.planning/phases/02-brand-assets-pass/02-02-PLAN.md:generic-api-key:160
+.planning/phases/02-brand-assets-pass/02-02-PLAN.md:generic-api-key:166
+
+# CF zone-scoped cache-purge token in plan deploy steps (already in primer)
+.planning/phases/02-brand-assets-pass/02-02-PLAN.md:curl-auth-header:267
+.planning/phases/02-brand-assets-pass/02-01-PLAN.md:curl-auth-header:467

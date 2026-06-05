@@ -3,6 +3,7 @@ export const translations = {
         nav: {
             home: "Home",
             about: "About",
+            work: "Work",
             services: "Services",
             blog: "Blog",
             contact: "Contact",
@@ -187,6 +188,7 @@ export const translations = {
         nav: {
             home: "ホーム",
             about: "会社概要",
+            work: "実績",
             services: "サービス",
             blog: "ブログ",
             contact: "お問い合わせ",
@@ -371,6 +373,7 @@ export const translations = {
         nav: {
             home: "홈",
             about: "소개",
+            work: "작업",
             services: "서비스",
             blog: "블로그",
             contact: "문의",
@@ -555,6 +558,7 @@ export const translations = {
         nav: {
             home: "Accueil",
             about: "À propos",
+            work: "Réalisations",
             services: "Services",
             blog: "Blog",
             contact: "Contact",
@@ -739,6 +743,7 @@ export const translations = {
         nav: {
             home: "Startseite",
             about: "Über uns",
+            work: "Arbeiten",
             services: "Leistungen",
             blog: "Blog",
             contact: "Kontakt",
@@ -923,6 +928,7 @@ export const translations = {
         nav: {
             home: "Inicio",
             about: "Nosotros",
+            work: "Trabajos",
             services: "Servicios",
             blog: "Blog",
             contact: "Contacto",
@@ -1107,6 +1113,7 @@ export const translations = {
         nav: {
             home: "หน้าแรก",
             about: "เกี่ยวกับเรา",
+            work: "ผลงาน",
             services: "บริการ",
             blog: "บล็อก",
             contact: "ติดต่อ",

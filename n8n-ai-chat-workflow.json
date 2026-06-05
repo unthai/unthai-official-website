@@ -1,0 +1,111 @@
+{
+  "name": "UNTH.AI AI Chat Assistant",
+  "nodes": [
+    {
+      "id": "webhook-receive",
+      "name": "Receive Chat Message",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "parameters": {
+        "path": "unthai-ai-chat",
+        "responseMode": "responseNode",
+        "options": {
+          "responseMethod": "responseNode",
+          "rawBody": false
+        },
+        "httpMethod": "POST"
+      }
+    },
+    {
+      "id": "process-message",
+      "name": "Process Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "parameters": {
+        "jsCode": "// Extract and validate the incoming message\nconst body = $input.first().json.body || $input.first().json;\n\nconst message = (body.message || '').trim();\nconst sessionId = body.sessionId || `session_${Date.now()}`;\nconst history = body.history || [];\nconst timestamp = body.timestamp || new Date().toISOString();\n\nif (!message) {\n  throw new Error('Message is required');\n}\n\nreturn {\n  message,\n  sessionId,\n  history,\n  timestamp,\n  source: 'unthai_chat_widget'\n};"
+      }
+    },
+    {
+      "id": "ai-response",
+      "name": "Generate AI Response",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [650, 300],
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.OPENAI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "options": {
+          "timeout": 30000
+        },
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-4o-mini"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\":\"system\",\"content\":\"You are the UNTH.AI website assistant. You help visitors learn about UNTH.AI's services and book calls.\\n\\nABOUT UNTH.AI:\\n- AI-powered creative & automation agency based in Bangkok, Thailand\\n- Offices in Bangkok and Osaka, Japan\\n- Services: AI Content Engine, Autonomous Agents, Workflow Automation (n8n), Creative Automation, AI Growth Strategy, AI Voice Intelligence\\n- Pricing starts from $900/month (Tier 1) to $7,500/month (Tier 3)\\n- Contact: hello@unth.ai\\n\\nGUIDELINES:\\n- Be concise, helpful, and professional\\n- If asked about pricing, give ranges and ask about their project\\n- If asked about booking, suggest they book a call\\n- Don't make up specific client results\\n- Keep responses under 150 words\"},{\"role\":\"user\",\"content\":\"={{ $json.message }}\"}]"
+            }
+          ]
+        },
+        "sendQuery": false,
+        "sendHeaders": true
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "parse-response",
+      "name": "Parse AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300],
+      "parameters": {
+        "jsCode": "// Parse the OpenAI response\nconst data = $input.first().json;\n\nif (data.choices && data.choices[0]) {\n  return {\n    response: data.choices[0].message.content.trim(),\n    model: data.model,\n    usage: data.usage\n  };\n}\n\n// Fallback\nreturn {\n  response: \"Thanks for reaching out! I'm connecting you with our team. Feel free to email hello@unth.ai\",\n  fallback: true\n};"
+      }
+    },
+    {
+      "id": "respond-webhook",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"response\": $json.response, \"sessionId\": $json.sessionId, \"timestamp\": new Date().toISOString()}"
+      }
+    }
+  ],
+  "connections": {
+    "webhook-receive": {
+      "main": [[{ "node": "process-message", "type": "main", "index": 0 }]]
+    },
+    "process-message": {
+      "main": [[{ "node": "ai-response", "type": "main", "index": 0 }]]
+    },
+    "ai-response": {
+      "main": [[{ "node": "parse-response", "type": "main", "index": 0 }]]
+    },
+    "parse-response": {
+      "main": [[{ "node": "respond-webhook", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": []
+}

@@ -1,0 +1,13 @@
+# Cloudflare Pages — unth.ai deployment
+# Docs: https://developers.cloudflare.com/pages/
+#
+# Deploy: npx wrangler pages deploy dist --project-name=unthai-website
+# First-time setup: npx wrangler pages project create unthai-website --production-branch=main
+
+name = "unthai-website"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-06-05"
+
+# The _worker.js in public/ is copied to dist/ at build time.
+# Cloudflare Pages automatically runs it as a Pages Function,
+# handling SPA routing (static files → direct, all other paths → index.html).

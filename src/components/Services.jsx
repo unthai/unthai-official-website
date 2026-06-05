@@ -6,6 +6,8 @@ import { BrainCircuit, Bot, Workflow, Palette, TrendingUp, AudioWaveform } from 
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 
+import { trackCtaClick } from '../lib/analytics';
+
 const Services = ({ showActions = false, showMainAction = false }) => {
     const { t, language } = useLanguage();
     const [servicesData, setServicesData] = useState([]);
@@ -127,36 +129,36 @@ const Services = ({ showActions = false, showMainAction = false }) => {
             </div>
 
             {showMainAction && (
-                <div style={{ marginTop: '56px', display: 'flex', justifyContent: 'center' }}>
-                    <Link
-                        to="/services"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '16px 48px',
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            color: 'var(--color-text-main)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            borderRadius: 'var(--radius-sm)',
-                            fontWeight: 600,
-                            fontSize: '16px',
-                            textDecoration: 'none',
-                            transition: 'all var(--transition-fast)'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(246, 208, 39, 0.1)';
-                            e.currentTarget.style.borderColor = 'var(--color-accent)';
-                            e.currentTarget.style.color = 'var(--color-accent)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                            e.currentTarget.style.color = 'var(--color-text-main)';
-                        }}
-                    >
-                        {t('services.readMore')}
-                    </Link>
+                <div style={{ marginTop: '56px', display: 'flex', justifyContent: 'center' }}>                        <Link
+                                to="/services"
+                                onClick={() => trackCtaClick({ label: 'services_view_all', location: 'services_section' })}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    padding: '16px 48px',
+                                    background: 'rgba(255, 255, 255, 0.05)',
+                                    color: 'var(--color-text-main)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    borderRadius: 'var(--radius-sm)',
+                                    fontWeight: 600,
+                                    fontSize: '16px',
+                                    textDecoration: 'none',
+                                    transition: 'all var(--transition-fast)'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'rgba(246, 208, 39, 0.1)';
+                                    e.currentTarget.style.borderColor = 'var(--color-accent)';
+                                    e.currentTarget.style.color = 'var(--color-accent)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                    e.currentTarget.style.color = 'var(--color-text-main)';
+                                }}
+                            >
+                                {t('services.readMore')}
+                            </Link>
                 </div>
             )}
         </div>

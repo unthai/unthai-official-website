@@ -1,11 +1,15 @@
-// TODO: add Cloudflare Turnstile widget — needs sitekey, see https://www.cloudflare.com/products/turnstile/
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useLanguage } from '../LanguageContext';
 import './LeadForm.css';
 
 import { fetchAPI } from '../lib/strapi';
+
+import { trackLeadSubmit } from '../lib/analytics';
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
 
 const RATE_LIMIT_KEY = 'unthai_lead_last_submit';
 const RATE_LIMIT_MS = 60 * 1000;
@@ -22,6 +26,8 @@ const LeadForm = () => {
     const [honeypot, setHoneypot] = useState('');
     const [errors, setErrors] = useState({});
     const [leadFormData, setLeadFormData] = useState(null);
+    const [turnstileToken, setTurnstileToken] = useState(null);
+    const turnstileRef = useRef(null);
 
     useEffect(() => {
         const loadLeadFormData = async () => {
@@ -82,6 +88,10 @@ const LeadForm = () => {
         if (!name) nextErrors.name = 'Name is required.';
         if (!email) nextErrors.email = 'Email is required.';
         else if (!EMAIL_PATTERN.test(email)) nextErrors.email = 'Please enter a valid email address.';
+        // Cloudflare Turnstile — require verification if site key is configured
+        if (TURNSTILE_SITE_KEY && !turnstileToken) {
+            nextErrors.turnstile = 'Please complete the security check.';
+        }
         if (Object.keys(nextErrors).length > 0) {
             setErrors(nextErrors);
             return;
@@ -123,14 +133,17 @@ const LeadForm = () => {
                 body: JSON.stringify({
                     ...trimmed,
                     timestamp: new Date().toISOString(),
-                    source: 'unthai_v1_website'
+                    source: 'unthai_v1_website',
+                    turnstileToken: turnstileToken || undefined
                 }),
             });
 
             if (response.ok) {
                 setStatus('success');
                 setFormData({ name: '', email: '', interests: [], message: '' });
+                setTurnstileToken(null);
                 markSubmitted();
+                trackLeadSubmit({ formSource: 'lead_form' });
                 setTimeout(() => setStatus('idle'), 5000);
             } else {
                 setStatus('error');
@@ -267,6 +280,26 @@ const LeadForm = () => {
                             placeholder="Tell us about your project..."
                         />
                     </div>
+
+                    {/* Cloudflare Turnstile — bot protection */}
+                    {TURNSTILE_SITE_KEY && (
+                        <div className="lead-form-turnstile">
+                            <Turnstile
+                                ref={turnstileRef}
+                                siteKey={TURNSTILE_SITE_KEY}
+                                onSuccess={(token) => {
+                                    setTurnstileToken(token);
+                                    setErrors((prev) => ({ ...prev, turnstile: undefined }));
+                                }}
+                                onExpire={() => setTurnstileToken(null)}
+                                onError={() => setTurnstileToken(null)}
+                                theme="dark"
+                            />
+                            {errors.turnstile && (
+                                <p className="lead-form-error" role="alert" style={{ color: '#ff6b6b', fontSize: '0.875rem', marginTop: '4px', textAlign: 'center' }}>{errors.turnstile}</p>
+                            )}
+                        </div>
+                    )}
 
                     <motion.button
                         whileHover={{ scale: 1.02 }}

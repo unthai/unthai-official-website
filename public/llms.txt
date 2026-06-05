@@ -6,8 +6,30 @@
 
 - [Home](https://unth.ai/): What we do and how the system works
 - [Services](https://unth.ai/services): AI agents, automation pipelines, content engines
+- [Work](https://unth.ai/work): Client case studies and results
 - [About](https://unth.ai/about): The team and the mandate
 - [Contact](https://unth.ai/contact): Start a project
+
+## Services
+
+- [AI Agents](https://unth.ai/services): Autonomous AI agents that own outcomes — sales follow-up, support resolution, operations monitoring. Built on Claude, GPT, Gemini, and open-weight models.
+- [Workflow Automation (n8n / Custom)](https://unth.ai/services): Automation pipelines connecting 15+ apps — HubSpot, Stripe, Slack, Google Sheets, Shopify, Lazada, QuickBooks, and more. Self-hosted n8n for data privacy.
+- [AI Content Engines](https://unth.ai/services): Production-grade content pipelines that create, repurpose, and publish at scale. Posters, video clips, voiceovers, and social scheduling.
+- [AI Voice Intelligence](https://unth.ai/services): 24/7 AI voice agents that handle calls, answer FAQs, process bookings, and route escalations — in Japanese, English, and Mandarin.
+- [AI Growth Strategy](https://unth.ai/services): Lead sourcing, enrichment, and multi-channel outreach (email + LINE + WhatsApp) powered by AI. Real-time campaign dashboards.
+
+## Case Studies
+
+- Multi-Brand E-Commerce (Bangkok): Autonomous product catalog engine processing 300+ products/month with 0 manual staging. 3× faster time-to-listing.
+- Premium Nightclub (Bangkok): AI content engine producing 4× engagement at 70% faster production. 1.2M monthly reach.
+- Boutique Hotel Group (Osaka): 24/7 AI voice receptionist handling 92% of calls autonomously. 40% more after-hours bookings. $18K annual savings.
+- B2B SaaS Company: n8n automation layer connecting 15 apps. 20+ hours/week saved. 30% faster lead response.
+- Real Estate Agency (Phuket): AI growth engine generating 150% more qualified leads. 1,000+ prospects/month. 8× ROI on campaign spend.
+
+## Offices
+
+- 🇹🇭 Bangkok, Thailand
+- 🇯🇵 Osaka, Japan
 
 ## Blog
 
@@ -17,6 +39,14 @@
 - [The Future of Low-Code Development with AI](https://unth.ai/blog/future-of-low-code-development-with-ai): How AI-assisted coding is bridging the gap between no-code simplicity and pro-code power.
 - [Building Resilient Data Pipelines](https://unth.ai/blog/building-resilient-data-pipelines): Architectural patterns for ensuring data integrity and availability in modern cloud environments.
 - [From Chatbots to Digital Employees](https://unth.ai/blog/from-chatbots-to-digital-employees): The evolution of conversational interfaces into fully autonomous digital workers capable of complex tasks.
+
+## Quick Facts
+
+- 50+ clients served
+- 200+ projects delivered
+- 7 languages supported
+- 24/7 operations coverage
+- Offices in Bangkok and Osaka
 
 ## Resources
 

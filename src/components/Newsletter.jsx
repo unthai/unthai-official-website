@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 
+import { trackNewsletterSignup } from '../lib/analytics';
+
 import { fetchAPI } from '../lib/strapi';
 
 const Newsletter = () => {
@@ -97,13 +99,8 @@ const Newsletter = () => {
                 }
                 setEmail('');
 
-                // Track conversion (if you have analytics)
-                if (window.gtag) {
-                    window.gtag('event', 'newsletter_signup', {
-                        event_category: 'engagement',
-                        event_label: 'newsletter'
-                    });
-                }
+                // Track newsletter signup conversion
+                trackNewsletterSignup({ source: 'newsletter_section' });
 
                 setTimeout(() => setStatus('idle'), 5000);
             } else {

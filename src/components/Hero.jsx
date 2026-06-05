@@ -6,6 +6,8 @@ import { ArrowRight, Bot, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../LanguageContext';
 
+import { trackCtaClick } from '../lib/analytics';
+
 import heroBg from '../assets/unthai-ai-automation-bg.webp';
 
 const Hero = () => {
@@ -202,6 +204,7 @@ const Hero = () => {
                     >
                         <Link
                             to="/contact"
+                            onClick={() => trackCtaClick({ label: 'hero_get_started', location: 'hero' })}
                             style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -228,6 +231,7 @@ const Hero = () => {
                         </Link>
                         <Link
                             to="/services"
+                            onClick={() => trackCtaClick({ label: 'hero_explore_services', location: 'hero' })}
                             style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',

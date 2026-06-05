@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Security: Hostinger nginx ignores .htaccess. CSP + Referrer set via <meta>.
        For full HSTS / X-Frame-Options / Permissions-Policy → put Cloudflare in front. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://api.unth.ai https://www.google-analytics.com https://*.analytics.google.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://calendly.com https://assets.calendly.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://calendly.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://api.unth.ai https://n8n.unth.ai https://www.google-analytics.com https://*.analytics.google.com https://calendly.com; frame-src 'self' https://calendly.com https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <!-- Preload above-the-fold OG image (used by social cards + JSON-LD).
@@ -25,7 +25,7 @@
   <link rel="canonical" href="https://unth.ai/" />
 
   <!-- Google Search Console verification — replace with real token when ready -->
-  <!-- <meta name="google-site-verification" content="REPLACE_ME" /> -->
+  <meta name="google-site-verification" content="REPLACE_ME" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -46,7 +46,17 @@
   <meta name="twitter:description" content="We build AI systems, automation workflows, and content engines that deliver real results for your business." />
   <meta name="twitter:image" content="https://unth.ai/og-image.png" />
 
-  <!-- JSON-LD: Organization (inline so crawlers without JS still see it) -->
+  <!-- Hreflang — 7 supported languages (client-side switch, same URL) -->
+  <link rel="alternate" hreflang="en" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="ja" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="ko" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="fr" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="de" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="es" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="th" href="https://unth.ai/" />
+  <link rel="alternate" hreflang="x-default" href="https://unth.ai/" />
+
+  <!-- JSON-LD: Organization + LocalBusiness (inline so crawlers without JS still see it) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -58,6 +68,26 @@
     "sameAs": [
       "https://twitter.com/UnthaiHQ",
       "https://www.linkedin.com/company/unthai"
+    ],
+    "location": [
+      {
+        "@type": "Place",
+        "name": "UNTH.AI Bangkok",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Bangkok",
+          "addressCountry": "TH"
+        }
+      },
+      {
+        "@type": "Place",
+        "name": "UNTH.AI Osaka",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Osaka",
+          "addressCountry": "JP"
+        }
+      }
     ]
   }
   </script>
