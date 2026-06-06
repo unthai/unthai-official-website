@@ -1,7 +1,7 @@
 # VPS Infrastructure Documentation
 
 **Last Updated:** 2026-04-27  
-**IP Address:** 31.97.139.175  
+**IP Address:** 15.235.13.34  
 **Provider:** Hostinger  
 **OS:** Ubuntu Linux  
 **RAM:** 16GB  
@@ -76,7 +76,7 @@ postgresql://postgres:PASSWORD@postgres:5432/[database_name]
 postgresql://postgres:PASSWORD@127.0.0.1:5432/[database_name]
 
 # SSH tunnel from local machine
-ssh -L 5432:localhost:5432 root@31.97.139.175 -i ~/.ssh/vps_key
+ssh -L 5432:localhost:5432 root@15.235.13.34 -i ~/.ssh/vps_key
 psql postgresql://postgres:PASSWORD@localhost:5432/[database_name]
 ```
 

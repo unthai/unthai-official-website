@@ -16,7 +16,7 @@
 ### Architecture
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    VPS (31.97.139.175)                  │
+│                    VPS (15.235.13.34)                  │
 ├─────────────────────────────────────────────────────────┤
 │  Traefik (Reverse Proxy + SSL)                         │
 │    ├── api.unth.ai → unth-strapi:1337                  │
@@ -34,7 +34,7 @@
 
 ## DNS Requirements
 
-Add these A records pointing to `31.97.139.175`:
+Add these A records pointing to `15.235.13.34`:
 
 | Subdomain | Status |
 |-----------|--------|
@@ -47,17 +47,17 @@ Add these A records pointing to `31.97.139.175`:
 
 ### Pull Latest Code
 ```bash
-ssh root@31.97.139.175 "cd /root/unthai-website && git pull"
+ssh root@15.235.13.34 "cd /root/unthai-website && git pull"
 ```
 
 ### Rebuild & Restart Strapi
 ```bash
-ssh root@31.97.139.175 "cd /root && docker compose build strapi && docker compose up -d strapi"
+ssh root@15.235.13.34 "cd /root && docker compose build strapi && docker compose up -d strapi"
 ```
 
 ### View Logs
 ```bash
-ssh root@31.97.139.175 "docker logs unth-strapi --tail 50"
+ssh root@15.235.13.34 "docker logs unth-strapi --tail 50"
 ```
 
 ---
@@ -72,10 +72,10 @@ npm run build
 ### Deploy to VPS
 ```bash
 # Copy dist folder to VPS
-rsync -avz dist/ root@31.97.139.175:/root/unth.ai/www/
+rsync -avz dist/ root@15.235.13.34:/root/unth.ai/www/
 
 # Or via SCP
-scp -r dist/* root@31.97.139.175:/root/unth.ai/www/
+scp -r dist/* root@15.235.13.34:/root/unth.ai/www/
 ```
 
 ---
@@ -111,7 +111,7 @@ DATABASE_PASSWORD=<from /root/.env>
 
 ## First-Time Setup
 
-1. **Add DNS record** for `api.unth.ai` → `31.97.139.175`
+1. **Add DNS record** for `api.unth.ai` → `15.235.13.34`
 2. **Wait for SSL** (auto-provisions via Let's Encrypt)
 3. **Create admin user** at https://api.unth.ai/admin
 4. **Configure content** in Strapi admin panel
@@ -122,20 +122,20 @@ DATABASE_PASSWORD=<from /root/.env>
 
 ### Check Container Status
 ```bash
-ssh root@31.97.139.175 "docker ps | grep strapi"
+ssh root@15.235.13.34 "docker ps | grep strapi"
 ```
 
 ### Check Traefik Logs (SSL issues)
 ```bash
-ssh root@31.97.139.175 "docker logs root-traefik-1 2>&1 | grep api.unth"
+ssh root@15.235.13.34 "docker logs root-traefik-1 2>&1 | grep api.unth"
 ```
 
 ### Restart Services
 ```bash
-ssh root@31.97.139.175 "cd /root && docker compose restart strapi"
+ssh root@15.235.13.34 "cd /root && docker compose restart strapi"
 ```
 
 ### Database Connection Test
 ```bash
-ssh root@31.97.139.175 "docker exec root-postgres-1 psql -U postgres -d unthai_website -c '\dt'"
+ssh root@15.235.13.34 "docker exec root-postgres-1 psql -U postgres -d unthai_website -c '\dt'"
 ```

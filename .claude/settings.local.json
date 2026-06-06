@@ -4,7 +4,7 @@
       "WebFetch(domain:n8n.unth.ai)",
       "Bash(open \"https://n8n.unth.ai/workflow/5EKC1vW4CyHsebcFlfgoN\")",
       "Bash(curl:*)",
-      "Bash(ssh -i ~/.ssh/dashboard-admin_id_ed25519 -o ControlMaster=auto -o ControlPath=/tmp/ssh-ctrl root@31.97.139.175 \"ls /root/ | grep unth\")"
+      "Bash(ssh -i ~/.ssh/dashboard-admin_id_ed25519 -o ControlMaster=auto -o ControlPath=/tmp/ssh-ctrl root@15.235.13.34 \"ls /root/ | grep unth\")"
     ]
   }
 }
